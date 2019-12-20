@@ -9,7 +9,7 @@ So I don't necessarily have any grand plans for this codebase, however, I won't 
 It's also become kind of like a compilation project as well. While nothing is finished, I'm working on:
 
 * A register/login component with jwt auth (I actually built a custom hook for this (it's called useLoginForm))
-* A 'Google Geocode' custom hook (can you tell I love making custom hooks, yet?)
+* A 'Google Geocode' custom hook...
 * A user display page that shows off some user 'accounts' from jsonplaceholder (yet again, another custom hook here, too)
 
 Some fun things I wanted to try to accomplish with this app -
