@@ -1,4 +1,4 @@
-# "Uber-Like" Reservation System
+# An "Uber-Like" Reservation System
 
 ## Current Objective
 
