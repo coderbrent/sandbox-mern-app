@@ -21,14 +21,11 @@ const Dashboard = () => {
     )
   }
   
-  const GOOGLE_API_KEY = `AIzaSyC0VaGsv4vdS6aBw7otqrikEI4ykWbQRbE`
-  const pID = `ChIJaRvprrfTw4kRzTN0swoQ9Po`
+  const GOOGLE_API_KEY = process.env.REACT_APP_GOOGLE_API_KEY
 
   const storePlaceID = () => {
     const url = `https://maps.googleapis.com/maps/api/place/details/json?key=${GOOGLE_API_KEY}&${pID}`
   }
-
-
   
   return (
     <>
