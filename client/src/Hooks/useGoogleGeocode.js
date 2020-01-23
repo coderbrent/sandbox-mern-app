@@ -6,7 +6,7 @@ const useGoogleGeocode = () => {
   const [dataObj, setDataObj] = useState([])
 
 const getAddressData = inputAddress => {
-  fetch(`/searchbyaddress/`, {
+  fetch(`/findVehicle/searchbyaddress`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

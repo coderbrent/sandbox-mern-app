@@ -14,6 +14,7 @@ const Reservation = () => {
 
   return (
     <>
+    <Banner />
     <Container>
       <GridList>
         { !isLoading ? userData.map((person, i) => ( 

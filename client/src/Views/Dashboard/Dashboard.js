@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import useGoogleGeocode from '../../Hooks/useGoogleGeocode'
-import classes from '../Dashboard/AddressSearch.module.css'
+import classes from '../Dashboard/dashboard.module.css'
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -10,7 +10,6 @@ import Typography from '@material-ui/core/Typography';
 const Dashboard = () => {
   const { getAddressData, dataObj, placesId } = useGoogleGeocode();
   const [inputs, setInputs] = useState({ address: '' })
-  const [placeId, setPlaceId] = useState({ id: '' })
 
   const handleInputChange = e => {
     e.persist();
@@ -24,7 +23,7 @@ const Dashboard = () => {
   const GOOGLE_API_KEY = process.env.REACT_APP_GOOGLE_API_KEY
 
   const storePlaceID = () => {
-    const url = `https://maps.googleapis.com/maps/api/place/details/json?key=${GOOGLE_API_KEY}&${pID}`
+    const url = `https://maps.googleapis.com/maps/api/place/details/json?key=${GOOGLE_API_KEY}`
   }
   
   return (

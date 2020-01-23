@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Box, Grid, Paper, Typography, Input, TextField, Icon} from '@material-ui/core'
+import { Grid, Paper, Typography, TextField } from '@material-ui/core'
 import { AccessAlarmOutlined, PlaceOutlined } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -15,8 +15,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const NewTripForm = () => {
-  const classes = useStyles();
- 
+  const classes = useStyles(); 
+  
   return (
     <>
     <div className={classes.root}>
