@@ -6,6 +6,7 @@ const mongoose = require('mongoose')
 const morgan = require('morgan')
 const User = require('../server/models/User')
 const bodyParser = require('body-parser')
+const userRoutes = require('../server/routes/userRoutes')
 // const validation = require('../server/validation/login')
 const jwt = require('jsonwebtoken')
 // const auth = require('./middleware/auth')
@@ -17,7 +18,7 @@ app.use(morgan())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-// app.use('/users', require('./routes/userRoutes'));
+// app.use('/users', userRoutes, require('./routes/userRoutes'));
 
 const db = mongoose.connection
 
@@ -33,6 +34,12 @@ mongoose.connect
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => { console.log('DB is connected') })
 
+
+app.get('/getinfo/:id', (req, res) => {
+  const placeID = req.params.id
+
+})
+
 app.post('/searchbyaddress/', (req, res) => {
   const { userAddress } = req.body
 
@@ -40,6 +47,7 @@ app.post('/searchbyaddress/', (req, res) => {
     address: userAddress
   }, (err, response) => {
     if(!err) {
+      
       return res.send(response.json.results[0]);
     } else {
       console.log(err)

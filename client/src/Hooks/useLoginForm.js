@@ -27,7 +27,7 @@ const useLoginForm = () => {
   }
 
   const verifyToken = token => {
-
+    
   }
 
   const handleSubmit = e => {
@@ -43,7 +43,7 @@ const useLoginForm = () => {
 // TODO: dynamically change the route from login to signup conditionally
 // based on what component is visible/active
 
-   fetch('/login', { 
+   fetch('/users/login', { 
       method: 'POST',
       headers: {
         'Content-Type': "application/json",

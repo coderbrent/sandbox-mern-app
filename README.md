@@ -1,7 +1,13 @@
-# My Sandbox Project
+# "Uber-Like" Reservation System
 
-## Objective/Purpose/Whathaveyou
+## Current Objective
 
-This project is really just to experiment a bit in the MERN stack. I started out by just throwing together a quick CRA and building out some basic components. Since I've been meaning to get around to building something with React Hooks and Google Maps, I figured this would be a good place to try that as well.
+A simple React front-ed "uber-like" reservation system that takes a users pickup and dropoff address, compares it to an array of (currently static) vehicle coordinates, and returns the closest vehicle/driver pairing.
 
-So I don't necessarily have any grand plans for this codebase, however, I won't stop it from evolving into something useful if that ends up happening, either!!
+## Motivation
+
+I'm fascinated with Uber's (and Lyft's, for that matter) reservation system. I wanted to try to build my own clone as an excercise using:
+
+ * Custom React Hooks (see: the useGoogleGeocode hook I made!)
+ * Googles Maps/Places/Locations API
+ * Rolling my own auth/login system that follows best practices (IE - <a href="https://www.rdegges.com/2018/please-stop-using-local-storage/">doesn't store JWTs in localstorage! </a>)

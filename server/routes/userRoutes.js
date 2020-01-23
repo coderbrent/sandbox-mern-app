@@ -6,7 +6,7 @@ const validate = require('../../server/validation/login');
 const auth = require('../middleware/auth')
 const UserModel = require('../models/User')
 
-router.post('/users/login', async (req, res) => {
+router.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
   try {
@@ -35,10 +35,7 @@ router.post('/users/login', async (req, res) => {
           )
       }
     )
-      
     res.send({ message: 'Successfully logged in!' })
-
-
   } catch(error) {
       res.status(500).send(error)
   }
