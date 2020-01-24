@@ -7,14 +7,13 @@ import Container from '@material-ui/core/Container'
 import GridList from '@material-ui/core/GridList'
 import GridListTile from '@material-ui/core/GridListTile'
 
-const Reservation = () => {
+const TripDisplay = () => {
   const url = 'https://jsonplaceholder.typicode.com/users'
   const { userData, isLoading, error } = useGetData(url);
   const [errorMessage, setErrorMessage] = useState({ message: ''})
 
   return (
     <>
-    <Banner />
     <Container>
       <GridList>
         { !isLoading ? userData.map((person, i) => ( 
@@ -22,8 +21,13 @@ const Reservation = () => {
             <Card style={{ backgroundColor: '#888', margin: '1em', color: 'whitesmoke' }}>
               {error && setErrorMessage({ message: error }) ? <p>{errorMessage.message}</p> : null }
               <CardContent>
-                <Typography>
-                  <div style={{ fontWeight: 'bolder', fontSize: '24px'}}>{person.name}</div>
+                <Typography 
+                  style={{ 
+                    fontWeight: 'bolder', 
+                    fontSize: '24px'
+                  }}
+                >
+                  {person.name}
                 </Typography>
                 <Typography>
                   Email: {person.email}
@@ -42,4 +46,4 @@ const Reservation = () => {
 
 }
 
-export default Reservation;
+export default TripDisplay;

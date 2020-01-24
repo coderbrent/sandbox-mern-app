@@ -6,9 +6,11 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import TripDisplay from '../../Components/TripDisplay/TripDisplay'
+import MyGoogleMap from '../../Components/GoogleMap/MyGoogleMap'
 
 const Dashboard = () => {
-  const { getAddressData, dataObj, placesId } = useGoogleGeocode();
+  const { getAddressData, dataObj } = useGoogleGeocode();
   const [inputs, setInputs] = useState({ address: '' })
 
   const handleInputChange = e => {
@@ -19,15 +21,16 @@ const Dashboard = () => {
       })
     )
   }
-  
-  const GOOGLE_API_KEY = process.env.REACT_APP_GOOGLE_API_KEY
 
-  const storePlaceID = () => {
-    const url = `https://maps.googleapis.com/maps/api/place/details/json?key=${GOOGLE_API_KEY}`
+  const findVehicle = () => {
+    fetch(`/findVehicle/locate-vehicle`).then(response => response.json()).then(json => console.log(json))
   }
   
   return (
     <>
+    <MyGoogleMap />
+    <TripDisplay />
+    <button type="button" onClick={findVehicle}>Get info from server</button>
     <div>
       <input type="text" name="address" onChange={handleInputChange} />
         <button type="submit" onClick={() => getAddressData(inputs.address)}>Search Address</button>

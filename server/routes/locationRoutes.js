@@ -5,14 +5,11 @@ const key = process.env.GOOGLE_API_KEY
 const vehicles = require('../mockdb-data/vehicle.json')
 const trips = require('../mockdb-data/trips.json')
 const axios = require('axios')
-const bodyParser = require('body-parser')
 const moment = require('moment')
 const polyline = require('@mapbox/polyline')
 const googleMapsClient = require('@google/maps').createClient({
   key: process.env.GOOGLE_API_KEY
 })
-
-googleMapsClient
 
 const parseURL = string => string.replace(/\s/g, '+')
 
@@ -22,46 +19,42 @@ const timeConversion = time =>  {
 
 const formatTime = timeString => {
   return timeString.replace(/['hour']/g, '').replace(/['mins']/g, '')
-} 
+}
+
+let newVehicleList = []
+
+const encodeCoords = vehicleList => {
+  let encodedUrl = []
+  
+  vehicleList.map((car, i) => {
+    let encodedNums = 
+      polyline.encode([[car.coords.lat, car.coords.lng]])
+      .replace(/^/, 'enc:')
+      .concat(':|')
+      
+      encodedUrl.push(encodedNums)
+      newVehicleList.push(`${car.vehicleID}: ${encodedNums}`)
+  })
+  const formattedUrl = encodedUrl.toString().replace(/[,]/g, '')
+  return formattedUrl;
+}
 
 router.get('/locate-vehicle', async (req, res) => {
   const pickupTime = timeConversion(trips[0].pickupTime)
   const clientPickupAddr = parseURL(trips[0].pickup)
-  const dropOffAddr = parseURL(trips[0].dropoff)
-
-// the following 'helper' function i made simply takes in an array of vehicles and polyline encodes
-// their lat/lng so they can be passed properly into a request URL
-  const encodeCoords = vehicleList => {
-    let encoded = []
-
-    vehicleList.map(car => {
-      let encodedNums = 
-        polyline.encode([[car.coords.lat, car.coords.lng]])
-          .replace(/^/, 'enc:')
-          .concat(':|')
-      
-        encoded.push(encodedNums)
-    })
-    const formatted = encoded.toString().replace(/[,]/g, '')
-    console.log(formatted)
-    return formatted;
-  }
-  
+  const dropOffAddr = parseURL(trips[1].dropoff)  
   const urlString = encodeCoords(vehicles)
   const url = `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${urlString}&destinations=${dropOffAddr}&key=${key}&traffic_model=pessimistic&departure_time=${pickupTime}`
 
   await axios.get(url).then(response => {
-    let closestCars = []
     response.data.rows.map((el, i) => {
-    
     const distance = parseInt(el.elements[0].distance.text)
-    const traffic = formatTime(el.elements[0].duration_in_traffic.text)
-
-    if(distance > 55) {
-      closestCars.push(el)
-      }
+    const trafficDuration = el.elements[0].duration_in_traffic.text
+    //update the vehicles "currentETA" time
+    vehicles[i].currentETA = distance
+      
     })
-    res.send(closestCars)
+    res.json({ vehicles })
   })
 })
 

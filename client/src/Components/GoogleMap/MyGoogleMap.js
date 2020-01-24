@@ -5,19 +5,19 @@ import useLoginForm from '../../Hooks/useLoginForm';
 
 const MyMapComponent = compose(
   withProps({
-    googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&v-3.exp&libraries=geometry,drawing,places`,
+    googleMapURL: `https://maps.googleapis.com/maps/api/js?key=AIzaSyDbnIg8wB7mATLm6NCPqXiYEiCR1ucyEmI&v-3.exp&libraries=geometry,drawing,places`,
     loadingElement: <div style={{ height: `100%` }} />,
-    containerElement: <div style={{ height: `300px` }} />,
+    containerElement: <div style={{ height: `300px`, width: `50%` }} />,
     mapElement: <div style={{ height: `100%`}} />,
   }),
   withScriptjs,
   withGoogleMap
 )((props) => 
   <GoogleMap
-    defaultZoom={5}
-    defaultCenter={{ lat: -34.397, lng: 150.644 }}
+    defaultZoom={8}
+    defaultCenter={{ lat: 41.42345, lng: -74.288089 }}
   >
-   { props.isMarkerShown && <Marker position={{ lat: -34.397, lng: 150.644 }} /> } 
+   { props.isMarkerShown && <Marker position={{ lat: 41.42345, lng: -74.288089 }} /> } 
   </GoogleMap>
 )
 
@@ -36,16 +36,15 @@ const MyGoogleMap = () => {
     delayedShowMarker()
   }
 
-  return (
+  return ( 
     <>{ isLoggedIn ? 
       <MyMapComponent
-        position={{ lat: 39.444, lng: 140.335 }}
+        position={{ lat: 41.42345, lng: -74.288089 }}
         isMarkerShown={isMarkerShown}
         onMarkerClick={handleMarkerClick}
     /> : null }
     </>
   )
-
 }
 
 export default MyGoogleMap;

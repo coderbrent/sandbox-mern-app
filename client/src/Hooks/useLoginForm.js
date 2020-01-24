@@ -1,3 +1,5 @@
+//TODO: Move all auth logic and handling to the server.
+
 import { useState } from 'react'
 
 const useLoginForm = () => {

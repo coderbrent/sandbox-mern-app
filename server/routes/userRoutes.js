@@ -47,4 +47,8 @@ router.get('/user', auth, (req, res) => {
     .then(user => res.json(user))
 })
 
+router.get('/getkey', (req, res) => {
+  res.send(process.env.GOOGLE_API_KEY)
+})
+
 module.exports = router;

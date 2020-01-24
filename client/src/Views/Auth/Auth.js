@@ -1,7 +1,7 @@
 import React from 'react';
 import Login from '../../Components/AuthForm/Login'
 
-const LoginView = () => {
+const Auth = () => {
   return (
     <div>
       <Login />
@@ -9,4 +9,4 @@ const LoginView = () => {
   )
 }
 
-export default LoginView;
+export default Auth;
