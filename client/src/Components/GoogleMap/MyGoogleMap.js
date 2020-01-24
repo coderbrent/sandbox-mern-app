@@ -3,9 +3,11 @@ import { compose, withProps } from 'recompose'
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps'
 import useLoginForm from '../../Hooks/useLoginForm';
 
+const key = process.env.REACT_APP_GOOGLE_API_KEY
+
 const MyMapComponent = compose(
   withProps({
-    googleMapURL: `https://maps.googleapis.com/maps/api/js?key=AIzaSyDbnIg8wB7mATLm6NCPqXiYEiCR1ucyEmI&v-3.exp&libraries=geometry,drawing,places`,
+    googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${key}&v-3.exp&libraries=geometry,drawing,places`,
     loadingElement: <div style={{ height: `100%` }} />,
     containerElement: <div style={{ height: `300px`, width: `50%` }} />,
     mapElement: <div style={{ height: `100%`}} />,
