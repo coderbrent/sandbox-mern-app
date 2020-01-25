@@ -4,14 +4,24 @@
     "garageAddress": "342 Broad Street Red Bank NJ 07701",
     "reqVehicle": "sedan",
     "pickupTime": "2020-01-30 08:00",
-    "pickup": "54 Tracy Drive Manalapan NJ 07726",
-    "dropoff": "JFK International Airport"
+    "pickup": { 
+      "street": "54 Tracy Drive",
+      "city": "Manalapan",
+      "state": "NJ"
+    },
+    "dropoff": "JFK International Airport",
+    "suggestedDrivers": []
   },
   {
     "tripID": 2,
     "reqVehicle": "sedan",
     "pickupTime": "2020-01-19 13:00",
-    "pickup": "16 Church Street Matawan NJ 07747",
-    "dropoff": "Newark Liberty International Airport, 10 Toler Place, Newark, NJ"
+    "pickup": { 
+      "street": "16 Church Street",
+      "city": "Matawan",
+      "state": "NJ"
+    },
+    "dropoff": "Newark Liberty International Airport, 10 Toler Place, Newark, NJ",
+    "suggestedDrivers": []
   }
 ]

@@ -1,30 +1,39 @@
 import { useEffect, useState } from 'react'
 
 const useGetData = url => {
-  const [userData, setUserData] = useState([]);
+  const [tripData, setTripData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    setIsLoading(true)
-    fetch(url, { headers: { 'Content-Type': 'application/json' } })
+    const getTripData = () => {
+      setIsLoading(true)
+      fetch(url, { 
+        method: 'get',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json'
+        } 
+      })
       .then(res => { 
         if(res.ok) {
-         return res.json()
+          return res.json()
         } else {
           throw Error('Error fetching information!')
         }
       })
       .then(data => {
-        setUserData(data)
+        setTripData(data)
         setIsLoading(false)
       })
       .catch(error => {
         setError(error)
       })
+    }
+    getTripData()
   }, [url])
- 
-  return { userData, isLoading, error }
+
+  return { tripData, isLoading, error }
 }
 
 export default useGetData;

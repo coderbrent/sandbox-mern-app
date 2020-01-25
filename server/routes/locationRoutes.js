@@ -11,17 +11,13 @@ const googleMapsClient = require('@google/maps').createClient({
   key: process.env.GOOGLE_API_KEY
 })
 
+let newVehicleList = []
+
 const parseURL = string => string.replace(/\s/g, '+')
 
 const timeConversion = time =>  { 
  return moment(moment(time).toISOString()).unix()
 }
-
-const formatTime = timeString => {
-  return timeString.replace(/['hour']/g, '').replace(/['mins']/g, '')
-}
-
-let newVehicleList = []
 
 const encodeCoords = vehicleList => {
   let encodedUrl = []
@@ -41,8 +37,8 @@ const encodeCoords = vehicleList => {
 
 router.get('/locate-vehicle', async (req, res) => {
   const pickupTime = timeConversion(trips[0].pickupTime)
-  const clientPickupAddr = parseURL(trips[0].pickup)
-  const dropOffAddr = parseURL(trips[1].dropoff)  
+  const clientPickupAddr = parseURL(trips[0].pickup.street + trips[0].pickup.city + trips[0].pickup.state)
+  const dropOffAddr = parseURL(trips[0].dropoff)
   const urlString = encodeCoords(vehicles)
   const url = `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${urlString}&destinations=${dropOffAddr}&key=${key}&traffic_model=pessimistic&departure_time=${pickupTime}`
 
@@ -50,9 +46,7 @@ router.get('/locate-vehicle', async (req, res) => {
     response.data.rows.map((el, i) => {
     const distance = parseInt(el.elements[0].distance.text)
     const trafficDuration = el.elements[0].duration_in_traffic.text
-    //update the vehicles "currentETA" time
-    vehicles[i].currentETA = distance
-      
+    vehicles[i].distanceAwayInMinutes = distance
     })
     res.json({ vehicles })
   })

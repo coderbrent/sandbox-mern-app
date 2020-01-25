@@ -7,12 +7,15 @@ const User = require('../server/models/User')
 const bodyParser = require('body-parser')
 const userRoutes = require('../server/routes/userRoutes')
 const locationRoutes = require('../server/routes/locationRoutes')
+const tripRoutes = require('../server/routes/tripRoutes')
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
+app.use(express.json())
 
 app.use('/users', userRoutes);
 app.use('/findVehicle', locationRoutes)
+app.use('/tripQueue', tripRoutes)
 
 const db = mongoose.connection
 

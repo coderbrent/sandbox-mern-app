@@ -1,45 +1,47 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import useGetData from '../../Hooks/useGetData'
-import Card from '@material-ui/core/Card/Card'
-import CardContent from '@material-ui/core/CardContent'
-import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'
-import GridList from '@material-ui/core/GridList'
-import GridListTile from '@material-ui/core/GridListTile'
+import TripTile from '../TripTile'
+import Spinner from 'react-spinkit'
+import Grid from '@material-ui/core/Grid'
 
 const TripDisplay = () => {
-  const url = 'https://jsonplaceholder.typicode.com/users'
-  const { userData, isLoading, error } = useGetData(url);
-  const [errorMessage, setErrorMessage] = useState({ message: ''})
+  const url = '/tripQueue/trips'
+  const { tripData, error } = useGetData(url);
+  const [ errorMessage, setErrorMessage ] = useState({ message: ''})
+
 
   return (
     <>
+    { error ? setErrorMessage(error) : null }
+    { 
+      error ? 
+        <p> 
+          There was an error loading! {errorMessage} 
+        </p> 
+      : null 
+      }
     <Container>
-      <GridList>
-        { !isLoading ? userData.map((person, i) => ( 
-          <GridListTile key={i}>
-            <Card style={{ backgroundColor: '#888', margin: '1em', color: 'whitesmoke' }}>
-              {error && setErrorMessage({ message: error }) ? <p>{errorMessage.message}</p> : null }
-              <CardContent>
-                <Typography 
-                  style={{ 
-                    fontWeight: 'bolder', 
-                    fontSize: '24px'
-                  }}
-                >
-                  {person.name}
-                </Typography>
-                <Typography>
-                  Email: {person.email}
-                </Typography>
-                <Typography>
-                  Phone: {person.phone}
-                </Typography>
-              </CardContent>
-            </Card>
-          </GridListTile>
-        )) : 'users loading...' }
-      </GridList>
+      <Grid container>
+      { tripData ?
+        tripData.trips.map((trip, i) => (
+          <Grid
+            xs={12}
+            spacing={2}
+            item key={i} 
+            style={{ listStyle: 'none', margin: '1em'}}
+          >
+            <TripTile 
+              pickupTime={trip.pickupTime}
+              street={trip.pickup.street}
+              city={trip.pickup.city}
+              state={trip.pickup.state}
+              dropoff={trip.dropoff}
+            />
+          </Grid>
+        )) : <Spinner color="purple" />
+      }
+      </Grid>
     </Container>
     </>
   )

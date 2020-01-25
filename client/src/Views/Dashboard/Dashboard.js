@@ -1,56 +1,48 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import useGoogleGeocode from '../../Hooks/useGoogleGeocode'
-import classes from '../Dashboard/dashboard.module.css'
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import TripDisplay from '../../Components/TripDisplay/TripDisplay'
-import MyGoogleMap from '../../Components/GoogleMap/MyGoogleMap'
+import VehicleTile from '../../Components/VehicleTile'
+import NewTripForm from '../../Components/NewTripForm/NewTripForm'
+import Spinner from 'react-spinkit'
+import { Grid, Container } from '@material-ui/core'
 
 const Dashboard = () => {
   const { getAddressData, dataObj } = useGoogleGeocode();
-  const [inputs, setInputs] = useState({ address: '' })
+  const [vehicleList, setVehicleList] = useState()
 
-  const handleInputChange = e => {
-    e.persist();
-    setInputs(inputs => ({
-        ...inputs, 
-        [e.target.name]: e.target.value
+  useEffect(() => {
+    const findVehicles = async () => {
+    await fetch(`/findVehicle/locate-vehicle`)
+      .then(response => response.json())
+      .then(json => {
+        json.vehicles.sort((a, b) => a.distanceAwayInMinutes - b.distanceAwayInMinutes)
+      setVehicleList(json)
       })
-    )
-  }
-
-  const findVehicle = () => {
-    fetch(`/findVehicle/locate-vehicle`).then(response => response.json()).then(json => console.log(json))
-  }
+    }
+    findVehicles();
+  }, [])
   
   return (
     <>
-    <MyGoogleMap />
     <TripDisplay />
-    <button type="button" onClick={findVehicle}>Get info from server</button>
-    <div>
-      <input type="text" name="address" onChange={handleInputChange} />
-        <button type="submit" onClick={() => getAddressData(inputs.address)}>Search Address</button>
-    </div>
-    { dataObj ? dataObj.map((locale, i) => (
-      <Card key={i} className={classes.card}>
-        <CardContent>
-          <Typography className={classes.title} color="textSecondary" gutterBottom>
-            { locale.address_components[0].long_name + ' ' + locale.address_components[1].long_name }
-          </Typography>
-          <Typography variant="body2" component="p">
-            { locale.address_components[2].long_name + ', ' + locale.address_components[3].long_name }
-          </Typography>
-          <CardActions>
-            <Button size="small">Learn More</Button>
-          </CardActions>
-        </CardContent>
-      </Card>
-    )) : '...loading address'
+    <NewTripForm />
+    <Container>
+      <Grid>
+    {
+      vehicleList ? vehicleList.vehicles.map((car, i) => (
+        <div key={i} style={{ listStyle: 'none' }}>
+        <VehicleTile 
+          vehicleName={car.vehicleName}
+          vehicleID={car.vehicleID}
+          driver={car.currentDriver}
+          distance={car.distanceAwayInMinutes}
+          driverAvatar={car.driverAvatar}
+        />
+        </div>
+      )) : <Spinner name="ball-scale-ripple" color="purple"/>
     }
+      </Grid>
+    </Container>
     </>
   )
 }

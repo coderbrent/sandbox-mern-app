@@ -28,10 +28,6 @@ const useLoginForm = () => {
     }
   }
 
-  const verifyToken = token => {
-    
-  }
-
   const handleSubmit = e => {
     if(e) {
       e.preventDefault();
