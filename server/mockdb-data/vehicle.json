@@ -1,9 +1,10 @@
 [
   {
     "vehicleID": 1,
-    "vehicleName": "lincoln",
+    "online": true,
+    "vehicleName": "2019 Lincoln Continental",
     "currentDriver": "Bobby",
-    "driverAvatar": "https://i.pravatar.cc/150?img=1",
+    "driverAvatar": "https://i.pravatar.cc/150?img=22",
     "coords": {
       "lat": 40.313507,
       "lng": -74.288087
@@ -12,18 +13,20 @@
   },
   {
     "vehicleID": 2,
-    "vehicleName": "dodge",
+    "online": true,
+    "vehicleName": "2007 Dodge Viper GTR",
     "currentDriver": "Frankie",
     "driverAvatar": "https://i.pravatar.cc/150?img=2",
     "coords": {
       "lat": 41.43206,
-      "lng": -81.38992
+      "lng": -81.28992
     },
     "distanceAwayInMinutes": ""
   },
   {
     "vehicleID": 3,
-    "vehicleName": "toyota",
+    "online": true,
+    "vehicleName": "2016 Toyota Highlander",
     "currentDriver": "Joey",
     "driverAvatar": "https://i.pravatar.cc/150?img=3",
     "coords": {
@@ -34,18 +37,20 @@
   },
   {
     "vehicleID": 4,
-    "vehicleName": "mercedes",
+    "online": true,
+    "vehicleName": "2020 Mercedes S600L",
     "currentDriver": "Seymour",
     "driverAvatar": "https://i.pravatar.cc/150?img=4",
     "coords": {
-      "lat": 41.41433,
-      "lng": -81.38792
+      "lat": 41.313507,
+      "lng": -74.288087
     },
     "distanceAwayInMinutes": ""
   },
   {
     "vehicleID": 5,
-    "vehicleName": "cadillac",
+    "online": true,
+    "vehicleName": "Da Caddy",
     "currentDriver": "Eddie",
     "driverAvatar": "https://i.pravatar.cc/150?img=5",
     "coords": {
@@ -56,7 +61,8 @@
   },
   {
     "vehicleID": 6,
-    "vehicleName": "big evs old tbird",
+    "online": true,
+    "vehicleName": "Big Ev's T-Bird",
     "currentDriver": "Big Ev",
     "driverAvatar": "https://i.pravatar.cc/150?img=6",
     "coords": {
@@ -67,7 +73,8 @@
   },
   {
     "vehicleID": 7,
-    "vehicleName": "gar's caprice",
+    "online": true,
+    "vehicleName": "Gar's Caprice",
     "currentDriver": "Gar",
     "driverAvatar": "https://i.pravatar.cc/150?img=7",
     "coords": {

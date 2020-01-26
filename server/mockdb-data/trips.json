@@ -9,6 +9,7 @@
       "city": "Manalapan",
       "state": "NJ"
     },
+    "assignedDriver": "",
     "dropoff": "JFK International Airport",
     "suggestedDrivers": []
   },
@@ -21,6 +22,7 @@
       "city": "Matawan",
       "state": "NJ"
     },
+    "assignedDriver": "",
     "dropoff": "Newark Liberty International Airport, 10 Toler Place, Newark, NJ",
     "suggestedDrivers": []
   }

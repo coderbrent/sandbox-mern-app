@@ -16,15 +16,17 @@ const TripTile = ({
   city,
   state,
   street,
+  suggestedDrivers,
 }) => {
   return (
     <>
     <GridListTile>
-      <Card 
+      <Card variant="button"
         style={{ 
           backgroundColor: '#888', 
           margin: '1em', 
-          color: 'whitesmoke'
+          color: 'whitesmoke',
+          cursor: 'pointer',
         }}
       >
         <CardContent>
@@ -40,15 +42,14 @@ const TripTile = ({
             component="ul"
             style={{ listStyle: `none`}}  
           >
-            <Typography variant="body">
-              <li>Street: { street }</li>
-              <li>City: { city }</li>
-              <li>State: { state }</li>
-            </Typography>
+            <li>Street: <strong>{ street }</strong></li>
+            <li>City: <strong>{ city }</strong></li>
+            <li>State: <strong>{ state }</strong></li>
           </Typography>
-          <Typography>
+          <Typography component="p">
             Dropoff: { dropoff }
           </Typography>
+          {/* if you want to add a suggested driver component here, implement redux. */}
         </CardContent>
       </Card>
     </GridListTile>

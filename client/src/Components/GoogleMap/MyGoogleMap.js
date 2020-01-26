@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { compose, withProps } from 'recompose'
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps'
 
-const key = "AIzaSyDbnIg8wB7mATLm6NCPqXiYEiCR1ucyEmI"
+const key = ""
 
 const MyMapComponent = compose(
   withProps({
