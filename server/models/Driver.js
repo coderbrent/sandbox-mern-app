@@ -1,31 +1,20 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const DriverSchema = new Schema({
-  driverName: {
-    type: String,
-  },
-  driverEmail: {
-    type: String,
-  },
-  driverPhone: {
-    type: String,
-  },
-  driverAddress: {
-    type: String,
-    body: {
-      street1: String,
-      street2: String,
-      city: String,
-      state: String,
-      zipcode: String,
-    }
-  }
+const driverSchema = new Schema({
+  first_name: String,
+  last_name: String,
+  email: String,
+  phone: String,
+  street1: String,
+  street2: String,
+  city: String,
+  state: String,
+  zipcode: String,
+  image: String,
 });
 
-DriverSchema.pre('save', function(next) {
-  console.log('user input was validated on the server...')
-  next();
-})
+driverSchema.virtual('fullName')
+  .get(function() { return this.name.first + ' ' + this.name.last })
 
-module.exports = Driver = mongoose.model('Driver', DriverSchema)
+module.exports = Driver = mongoose.model('Driver', driverSchema)
