@@ -21,7 +21,7 @@ const TripTile = ({
   return (
     <>
     <GridListTile>
-      <Card variant="button"
+      <Card
         style={{ 
           backgroundColor: '#888', 
           margin: '1em', 

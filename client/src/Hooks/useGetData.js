@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react'
 
 const useGetData = url => {
-  const [tripData, setTripData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [tripData, setTripData] = useState();
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const getTripData = () => {
-      setIsLoading(true)
       fetch(url, { 
         method: 'get',
         mode: 'no-cors',
@@ -24,7 +22,6 @@ const useGetData = url => {
       })
       .then(data => {
         setTripData(data)
-        setIsLoading(false)
       })
       .catch(error => {
         setError(error)
@@ -33,7 +30,7 @@ const useGetData = url => {
     getTripData()
   }, [url])
 
-  return { tripData, isLoading, error }
+  return { tripData, error }
 }
 
 export default useGetData;

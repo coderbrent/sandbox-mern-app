@@ -39,7 +39,7 @@ router.post(`/new-driver`, async (req, res) => {
 })
 
 router.get(`/get-driver/:id`, (req, res) => {
-
+  
 })
 
 router.put(`/update-driver/:id`, (req, res) => {
