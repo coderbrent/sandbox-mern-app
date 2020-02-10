@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import TripDisplay from '../../Components/TripDisplay/TripDisplay'
 import VehicleTile from '../../Components/VehicleTile'
 import VehicleDisplay from '../../Components/VehicleDisplay'
 import NewTripForm from '../../Components/NewTripForm/NewTripForm'
@@ -10,7 +9,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const findVehicles = async () => {
-    await fetch(`/findVehicle/locate-vehicle`)
+    await fetch(`/locations/locate-vehicle`)
       .then(response => response.json())
       .then(json => {
         json.vehicles.sort((a, b) => a.distanceAwayInMinutes - b.distanceAwayInMinutes)
@@ -22,7 +21,6 @@ const Dashboard = () => {
   
   return (
     <>
-    <TripDisplay />
     <NewTripForm />
     <VehicleDisplay>
       {

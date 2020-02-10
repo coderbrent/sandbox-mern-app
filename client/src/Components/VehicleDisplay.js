@@ -2,7 +2,6 @@ import React from 'react';
 import { Container, Grid } from '@material-ui/core'
 
 const TripDisplay = ({ children }) => {
-
   return (
     <>
       <Container style={{ backgroundColor: `#222`}}>

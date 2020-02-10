@@ -7,9 +7,7 @@ const trips = require('../mockdb-data/trips.json')
 const axios = require('axios')
 const moment = require('moment')
 const polyline = require('@mapbox/polyline')
-const googleMapsClient = require('@google/maps').createClient({
-  key: process.env.GOOGLE_API_KEY
-})
+const Trips = require('../models/Trip')
 
 let newVehicleList = []
 
@@ -19,10 +17,21 @@ const timeConversion = time =>  {
  return moment(moment(time).toISOString()).unix()
 }
 
+async function getTrips() {
+  try {
+    const trips = await Trips.find({}, (err, res) => {
+      if(err) throw err
+      return res;
+    })
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 const encodeCoords = vehicleList => {
   let encodedUrl = []
   
-  vehicleList.map((car, i) => {
+  vehicleList.map(car => {
     let encodedNums = 
       polyline.encode([[car.coords.lat, car.coords.lng]])
       .replace(/^/, 'enc:')
@@ -43,28 +52,30 @@ router.get('/locate-vehicle', async (req, res) => {
   const url = `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${urlString}&destinations=${dropOffAddr}&key=${key}&traffic_model=pessimistic&departure_time=${pickupTime}`
 
   await axios.get(url).then(response => {
+    console.log(response)
     response.data.rows.map((el, i) => {
-    const distance = parseInt(el.elements[0].distance.text)
-    const trafficDuration = el.elements[0].duration_in_traffic.text
-    vehicles[i].distanceAwayInMinutes = distance
+      const distance = parseInt(el.elements[0].distance.text)
+      const trafficDuration = el.elements[0].duration_in_traffic.text
+      vehicles[i].distanceAwayInMinutes = distance
     })
     res.json({ vehicles })
   })
-})
-
-router.post('/searchbyaddress/', (req, res) => {
-  const { userAddress } = req.body
-
-  googleMapsClient.geocode({
-    address: userAddress
-  }, (err, response) => {
-    if(!err) {
-      return res.send(response.json.results[0]);
-    } else {
-      console.log(err)
-    }
-  })
 
 })
+
+// router.post('/searchbyaddress/', (req, res) => {
+//   const { userAddress } = req.body
+
+//   googleMapsClient.geocode({
+//     address: userAddress
+//   }, (err, response) => {
+//     if(!err) {
+//       return res.send(response.json.results[0]);
+//     } else {
+//       console.log(err)
+//     }
+//   })
+
+// })
 
 module.exports = router;

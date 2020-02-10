@@ -15,59 +15,26 @@ router.get(`/get-trips`, (req, res) => {
   })
 })
 
-router.post(`/new-trip`, (req, res) => {
+router.post(`/add-trip`, (req, res) => {
   const { 
     trip_type, 
     pu_date, 
-    pu_time, 
-    pu_street1, 
-    pu_street2, 
-    pu_city, 
-    pu_state, 
-    pu_zipcode, 
-    do_date,
-    do_time,
-    do_street1,
-    do_street2,
-    do_city,
-    do_state,
-    do_zipcode,
-    suggestedDriver,
-    assignedDriver,
-    assignedVehicle,
+    pu_time,
+    pu_addr,
+    suggested_driver,
+    assigned_driver,
+    assigned_vehicle,
   } = req.body
 
   const newTrip = new TripModel({ 
     tripType: trip_type,
-    pickupDate: pu_date,
-    pickupTime: pu_time,
-    pickupAddr: {
-      street1: pu_street1,
-      street2: pu_street2,
-      city: pu_city,
-      state: pu_state,
-      zipcode: pu_zipcode,
-      coords: {
-        lat: null,
-        lng: null,
-      }
-    },
-    dropoffDate: do_date,
-    dropoffTime: do_time,
-    dropoffAddr: {
-      street1: do_street1,
-      street2: do_street2,
-      city: do_city,
-      state: do_state,
-      zipcode: do_zipcode,
-      coords: {
-        lat: null,
-        lng: null,
-      },
-      suggestedDrivers: suggestedDriver,
-      assignedDriver: assignedDriver,
-      assignedVehicle: assignedVehicle,
-   }})
+    puDate: pu_date,
+    puTime: pu_time,
+    puAddr: pu_addr,
+    suggestedDrivers: suggested_driver,
+    assignedDriver: assigned_driver,
+    assignedVehicle: assigned_vehicle,
+   })
 
    newTrip.save(function(err) {
      if(err) console.error(err);

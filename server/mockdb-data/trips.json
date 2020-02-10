@@ -3,7 +3,7 @@
     "tripID": 1,
     "garageAddress": "342 Broad Street Red Bank NJ 07701",
     "reqVehicle": "sedan",
-    "pickupTime": "2020-01-30 08:00",
+    "pickupTime": "2020-05-30 08:00",
     "pickup": { 
       "street": "54 Tracy Drive",
       "city": "Manalapan",

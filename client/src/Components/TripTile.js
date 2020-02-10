@@ -49,7 +49,6 @@ const TripTile = ({
           <Typography component="p">
             Dropoff: { dropoff }
           </Typography>
-          {/* if you want to add a suggested driver component here, implement redux. */}
         </CardContent>
       </Card>
     </GridListTile>

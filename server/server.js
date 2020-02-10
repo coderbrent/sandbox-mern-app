@@ -14,9 +14,9 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.json())
 
 app.use('/users', userRoutes);
-app.use('/findVehicle', locationRoutes)
-app.use('/tripQueue', tripRoutes)
-app.use('/driverRoutes', driverRoutes)
+app.use('/locations', locationRoutes)
+app.use('/trips', tripRoutes)
+app.use('/drivers', driverRoutes)
 
 const db = mongoose.connection
 

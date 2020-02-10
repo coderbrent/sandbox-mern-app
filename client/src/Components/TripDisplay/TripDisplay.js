@@ -7,8 +7,7 @@ import Grid from '@material-ui/core/Grid'
 import { useSelector } from 'react-redux'
 
 const TripDisplay = () => {
-  useSelector(state => state.trips)
-  const url = '/tripQueue/get-trips'
+  const url = '/trips/get-trips'
   const [trips, setTrips] = useState(null)
   const { tripData, error } = useGetData(url);
 
