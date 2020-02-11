@@ -1,21 +1,17 @@
 const express = require('express');
-const bodyParser = require('body-parser')
 const router = express.Router();
-const trips = require('../mockdb-data/trips.json')
 const TripModel = require('../models/Trip')
-const Trips = require('../models/Trip')
-
-router.use(bodyParser.json())
-router.use(bodyParser.urlencoded({ extended: false }))
+const geocoder = require('geocoder')
+const key = process.env.GOOGLE_API_KEY
 
 router.get(`/get-trips`, (req, res) => {
-  Trips.find({}, (err, docs) => {
+  TripModel.find({}, (err, docs) => {
     if(err) throw err
     return res.json(docs)
   })
 })
 
-router.post(`/add-trip`, (req, res) => {
+router.post(`/add-trip`, async (req, res) => {
   const { 
     trip_type, 
     pu_date, 
@@ -25,22 +21,54 @@ router.post(`/add-trip`, (req, res) => {
     assigned_driver,
     assigned_vehicle,
   } = req.body
+  //I think this is kind of a janky solution, but it works - had to scope
+  //the db operations into an asynchronous geocoder function in order to
+  //store the coords in mongo. Originally when mongo methods were scoped, 
+  //outside the geocoding function, saves were occuring synchronously
+  //and storing empty values in the coords field.
+  geocoder.geocode(pu_addr, async (err, data) => { 
+    if(err) console.log(err);
 
-  const newTrip = new TripModel({ 
-    tripType: trip_type,
-    puDate: pu_date,
-    puTime: pu_time,
-    puAddr: pu_addr,
-    suggestedDrivers: suggested_driver,
-    assignedDriver: assigned_driver,
-    assignedVehicle: assigned_vehicle,
-   })
+    const coords = []
+    coords.push(
+      data.results[0].geometry.location.lng, 
+      data.results[0].geometry.location.lat
+    )
 
-   newTrip.save(function(err) {
-     if(err) console.error(err);
-    })
-    res.send({ message: `A new trip was saved!`});
-    res.end()
+    const newTrip = await new TripModel({ 
+      tripType: trip_type,
+      puDate: pu_date,
+      puTime: pu_time,
+      puAddr: { 
+        location: {
+          type: 'Point', 
+          coordinates: coords,
+        },
+        text_address: pu_addr,
+      },
+      suggestedDrivers: suggested_driver,
+      assignedDriver: assigned_driver,
+      assignedVehicle: assigned_vehicle,
+     })
+
+     await newTrip.save(function(err) {
+      if(err) { 
+         console.log(err.message)
+       }
+     })
+     res.send({ message: `A new trip was saved!`});
+     res.end()
+  }, { key: key })
+  
+})
+
+router.delete(`/delete-trip/:id`, (req, res) => {
+  const tripId = req.params.id
+  TripModel.findByIdAndDelete(tripId, (err, res) => {
+    if(err) console.log(err)
+  })
+  res.send({ message: `trip was successfully deleted from the DB!`})
+  return res.end()
 })
 
 module.exports = router;

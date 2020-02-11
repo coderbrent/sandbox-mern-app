@@ -11,24 +11,13 @@ const Trips = require('../models/Trip')
 
 let newVehicleList = []
 
-const parseURL = string => string.replace(/\s/g, '+')
+const parseURL = string => string.replace(/,/g, '+')
 
 const timeConversion = time =>  { 
  return moment(moment(time).toISOString()).unix()
 }
 
-async function getTrips() {
-  try {
-    const trips = await Trips.find({}, (err, res) => {
-      if(err) throw err
-      return res;
-    })
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-const encodeCoords = vehicleList => {
+const polylineEncodeCoords = vehicleList => {
   let encodedUrl = []
   
   vehicleList.map(car => {
@@ -45,14 +34,21 @@ const encodeCoords = vehicleList => {
 }
 
 router.get('/locate-vehicle', async (req, res) => {
+  let foundTrips = []
+
+  await Trips.find({}, (err, docs) => {
+    return foundTrips = docs
+  })
+
+  // console.log(parseURL(foundTrips[0].puAddr.text_address))
+
   const pickupTime = timeConversion(trips[0].pickupTime)
   const clientPickupAddr = parseURL(trips[0].pickup.street + trips[0].pickup.city + trips[0].pickup.state)
   const dropOffAddr = parseURL(trips[0].dropoff)
-  const urlString = encodeCoords(vehicles)
+  const urlString = polylineEncodeCoords(vehicles)
   const url = `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${urlString}&destinations=${dropOffAddr}&key=${key}&traffic_model=pessimistic&departure_time=${pickupTime}`
 
   await axios.get(url).then(response => {
-    console.log(response)
     response.data.rows.map((el, i) => {
       const distance = parseInt(el.elements[0].distance.text)
       const trafficDuration = el.elements[0].duration_in_traffic.text

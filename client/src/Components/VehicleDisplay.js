@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Grid } from '@material-ui/core'
 
-const TripDisplay = ({ children }) => {
+const VehicleDisplay = ({ children }) => {
   return (
     <>
       <Container style={{ backgroundColor: `#222`}}>
@@ -24,4 +24,4 @@ const TripDisplay = ({ children }) => {
   )
 }
 
-export default TripDisplay;
+export default VehicleDisplay;

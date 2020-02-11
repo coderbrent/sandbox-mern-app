@@ -4,19 +4,21 @@ const port = 5000 || process.env.PORT
 const app = express()
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
-const userRoutes = require('../server/routes/userRoutes')
+// const userRoutes = require('../server/routes/userRoutes')
 const locationRoutes = require('../server/routes/locationRoutes')
 const tripRoutes = require('../server/routes/tripRoutes')
 const driverRoutes = require('../server/routes/driverRoutes')
+const vehicleRoutes = require('../server/routes/vehicleRoutes')
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.json())
 
-app.use('/users', userRoutes);
+// app.use('/users', userRoutes);
 app.use('/locations', locationRoutes)
 app.use('/trips', tripRoutes)
 app.use('/drivers', driverRoutes)
+app.use('/vehicles', vehicleRoutes)
 
 const db = mongoose.connection
 

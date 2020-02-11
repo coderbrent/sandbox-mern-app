@@ -33,12 +33,17 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const NewTripForm = () => {
-  const [ inputs, setInputs ] = useState({ trip_type: '', pu_date: '', pu_time: '', pu_addr: '' })
+  const [selectedDate, setSelectedDate] = useState(new Date())
+  const [selectedType, setSelectedType] = useState('')
+  const [inputs, setInputs] = useState({ pu_time: '', pu_addr: '' })
   const inputLabel = useRef(null);
   const [labelWidth, setLabelWidth] = useState(0);
+  
   useEffect(() => {
     setLabelWidth(inputLabel.current.offsetWidth);
   }, []);
+
+  const classes = useStyles(); 
 
   const handleInputChange = e => {
     e.persist();
@@ -49,21 +54,16 @@ const NewTripForm = () => {
     )
   }
 
-  const handleDateChange = e => {
-    setInputs(inputs => ({
-      ...inputs,
-      [e.target.name]: e.target.value
-    }))
+  const handleSelect = e => {
+    setSelectedType(e.target.value);
   }
-
-  const classes = useStyles(); 
 
   const addNewTrip = (e) => {
     e.preventDefault()
 
     const newTrip = {
-      trip_type: inputs.trip_type,
-      pu_date: inputs.pu_date,
+      trip_type: selectedType,
+      pu_date: selectedDate,
       pu_time: inputs.pu_time,
       pu_addr: inputs.pu_addr,
     }
@@ -72,8 +72,7 @@ const NewTripForm = () => {
       headers: {
         'Content-Type': 'application/json'
       },
-      method: 'POST', 
-      mode: 'cors',
+      method: 'POST',
       body: JSON.stringify(newTrip)
     }
    ).then(response => response.json())
@@ -118,6 +117,7 @@ const NewTripForm = () => {
                   inputProps={{
                     step: 300, // 5 min
                   }}
+                  required
                 />
                 </Grid>
                 <FormControl 
@@ -134,15 +134,22 @@ const NewTripForm = () => {
                     name="trip_type"
                     labelId="demo-simple-select-outlined-label"
                     id="demo-simple-select-outlined"
-                    onChange={handleInputChange}
+                    onChange={handleSelect}
+                    value={selectedType}
                     labelWidth={labelWidth}
+                    required
                   >
                     <MenuItem value={'Airport'}>Airport</MenuItem>
                     <MenuItem value={'Local'}>Local</MenuItem>
                     <MenuItem value={'NYC'}>NYC</MenuItem>
                   </Select>
                 </FormControl>
-                <DatePicker name="pu_date" onChange={handleDateChange} />
+                <DatePicker 
+                  name="pu_date" 
+                  value={selectedDate}
+                  onChange={setSelectedDate}
+                  required
+                />
                 <Grid item xs={6}>
                   <TextField 
                     id="outlined-basic"
@@ -154,6 +161,7 @@ const NewTripForm = () => {
                     InputLabelProps={{
                       shrink: true,
                     }}
+                    required
                   />
                 </Grid>
                 <Button 

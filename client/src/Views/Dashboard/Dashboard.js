@@ -3,6 +3,7 @@ import VehicleTile from '../../Components/VehicleTile'
 import VehicleDisplay from '../../Components/VehicleDisplay'
 import NewTripForm from '../../Components/NewTripForm/NewTripForm'
 import Spinner from 'react-spinkit'
+import TripDisplay from '../../Components/TripDisplay/TripDisplay'
 
 const Dashboard = () => {
   const [vehicleList, setVehicleList] = useState()
@@ -21,6 +22,7 @@ const Dashboard = () => {
   
   return (
     <>
+    <TripDisplay />
     <NewTripForm />
     <VehicleDisplay>
       {

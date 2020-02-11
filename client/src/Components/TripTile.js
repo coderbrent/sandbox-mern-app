@@ -5,19 +5,28 @@ import {
   CardContent, 
   Typography,
 } from '@material-ui/core/'
+import { DeleteOutlineTwoTone } from '@material-ui/icons';
+import GoogleMapReact from 'google-map-react'
+import MapPointer from './MapPointer';
+
+const key = `AIzaSyC0VaGsv4vdS6aBw7otqrikEI4ykWbQRbE`
 
 const TripTile = ({
   tripID,
-  reqVehicle,
-  pickupTime,
-  dropoff,
   lat,
   lng,
-  city,
-  state,
+  pickupTime,
+  tripDate,
+  dropoff,
   street,
-  suggestedDrivers,
 }) => {
+  
+  const deleteTripById = id => {
+    fetch(`/trips/delete-trip/${id}`, {
+      method: `DELETE`
+    })
+  }
+
   return (
     <>
     <GridListTile>
@@ -26,29 +35,55 @@ const TripTile = ({
           backgroundColor: '#888', 
           margin: '1em', 
           color: 'whitesmoke',
-          cursor: 'pointer',
         }}
       >
         <CardContent>
-          <Typography 
+          <div 
             style={{ 
-              fontWeight: 'bolder', 
-              fontSize: '24px'
+              display: `inline-flex`,
+              alignItems: `center`,
+              justifyContent: `space-between`,
+              width: `100%`
             }}
           >
-            { pickupTime }
+            <div>
+              <Typography 
+                style={{ 
+                  fontWeight: 'bolder', 
+                  fontSize: '24px'
+                }}
+              >
+              { pickupTime }, { tripDate }
+              </Typography>
+            </div>
+            <a 
+              href="#"
+              style={{ color: `whitesmoke`}}
+              onClick={() => deleteTripById(tripID)}
+            >
+              <DeleteOutlineTwoTone />
+            </a>
+          </div>
+          <Typography>
+            Pickup: <strong>{ street }</strong>
           </Typography>
-          <Typography 
-            component="ul"
-            style={{ listStyle: `none`}}  
-          >
-            <li>Street: <strong>{ street }</strong></li>
-            <li>City: <strong>{ city }</strong></li>
-            <li>State: <strong>{ state }</strong></li>
-          </Typography>
-          <Typography component="p">
+          <Typography>
             Dropoff: { dropoff }
           </Typography>
+          <div style={{ height: `300px`, width: `100%`}}>
+            <GoogleMapReact
+              bootstrapURLKeys={{
+                key: key,
+                language: 'en'
+              }}
+              defaultCenter={{lat: lng, lng: lat}}
+              center={{lat: lng, lng: lat}}
+              defaultZoom={10}
+              yesIWantToUseGoogleMapApiInternals
+            >
+              <MapPointer lat={lng} lng={lat} />
+            </GoogleMapReact>
+          </div>
         </CardContent>
       </Card>
     </GridListTile>
