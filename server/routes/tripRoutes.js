@@ -71,4 +71,46 @@ router.delete(`/delete-trip/:id`, (req, res) => {
   return res.end()
 })
 
+router.put(`/assign-driver/:tripid/:driverid`, async (req, res) => {
+  const driverId = req.params.driverid
+  const tripId = req.params.tripid
+
+  await TripModel
+    .findByIdAndUpdate(
+      tripId, 
+        { 
+          assignedDriver: driverId 
+        }, 
+        { 
+          new: true,
+          upsert: false, 
+          useFindAndModify: false, 
+          omitUndefined: false
+        }, (err, response) => {
+          if(err) console.log(err)
+          res.send({ message: response })
+        })
+})
+
+router.put(`/remove-driver/:tripid`, async (req, res) => {
+  const tripId = req.params.tripid
+
+  await TripModel
+    .findByIdAndUpdate(
+      tripId,
+      {
+        assignedDriver: ''
+      },
+      {
+        new: true,
+        upsert: false,
+        useFindAndModify: false,
+        omitUndefined: false
+      }, (err, response) => {
+        if(err) console.log(err)
+        res.send({ message: response })
+      }
+    )
+})
+
 module.exports = router;

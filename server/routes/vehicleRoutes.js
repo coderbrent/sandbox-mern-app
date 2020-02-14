@@ -12,7 +12,8 @@ router.post(`/add-vehicle`, (req, res) => {
     photo, 
     currentDriver, 
     lat, 
-    lng } = req.body
+    lng 
+  } = req.body
 
   const newVehicle = new VehicleModel({
     make: make,

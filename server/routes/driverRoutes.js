@@ -38,6 +38,14 @@ router.post(`/new-driver`, async (req, res) => {
   res.end()
 })
 
+router.get(`/all-drivers`, (req, res) => {
+  DriverModel.find({}, (err, response) => {
+    if(err) console.log(err);
+    console.log(response)
+    res.json(response)
+  })
+})
+
 router.get(`/get-driver/:id`, (req, res) => {
   
 })

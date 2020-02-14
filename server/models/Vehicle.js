@@ -9,7 +9,12 @@ const vehicleSchema = new Schema({
   plate: { type: String, required: true },
   photo: String,
   currentDriver: String,
-  location: { coords: { lat: Number, lng: Number }}
+  location: { 
+    coords: { 
+      lat: Number,
+      lng: Number 
+    }
+  }
 });
 
 module.exports = Vehicle = mongoose.model('Vehicle', vehicleSchema)
