@@ -102,7 +102,6 @@ export default function DriverSelectModal({ tripId }) {
       <Typography variant="subtitle1">
         Assigned Driver: {selectedValue}
       </Typography>
-      <br />
       <Button 
         variant="outlined" 
         color="primary" 

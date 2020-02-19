@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -8,16 +8,12 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
 import { 
-  Grid, 
-  Paper, 
-  Typography,
   MenuItem,
-  FormControl,
   InputLabel,
   Select,
 } from '@material-ui/core'
 import { DatePicker } from '@material-ui/pickers'
-import { AccessAlarmOutlined, PlaceOutlined } from '@material-ui/icons'
+// import { AccessAlarmOutlined, PlaceOutlined } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/core/styles';
 
 export default function NewTripModal() {

@@ -20,6 +20,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
+import DriverSelectModal from '../DriverSelectModal/DriverSelectModal'
 
 // const rows = [
 //   createData('12/30/1983', '12:30am', '36 Mohawk Lane, Old Bridge NJ 08857', 'Airport', 'Sturd McBurgis'),
@@ -62,6 +63,7 @@ const headCells = [
   { id: 'pu_address', numeric: false, disablePadding: false, label: 'Pickup Address' },
   { id: 'trip_type', numeric: false, disablePadding: false, label: 'Trip Type' },
   { id: 'assigned_driver', numeric: false, disablePadding: false, label: 'Driver' },
+  { id: 'trip_actions', numeric: false, disablePadding: false, label: 'Edit Trip'}
 ];
 
 function EnhancedTableHead(props) {
@@ -205,7 +207,7 @@ const useStyles = makeStyles(theme => ({
 export default function TripTable() {
   const classes = useStyles();
   const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('calories');
+  const [orderBy, setOrderBy] = useState('time');
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
@@ -271,7 +273,10 @@ export default function TripTable() {
     setDense(event.target.checked);
   };
 
-  const isSelected = name => selected.indexOf(name) !== -1;
+  const isSelected = name => {
+    console.log(name)
+    return selected.indexOf(name) !== -1 
+  };
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, trips.length - page * rowsPerPage);
 
@@ -325,6 +330,7 @@ export default function TripTable() {
                       <TableCell align="left">{trip.puAddr.text_address}</TableCell>
                       <TableCell align="left">{trip.tripType}</TableCell>
                       <TableCell align="left">{trip.assignedDriver}</TableCell>
+                      <TableCell component="th"><DriverSelectModal tripId={trip._id} /></TableCell>
                     </TableRow>
                   );
                 })}

@@ -8,8 +8,8 @@ import {
 } from '@material-ui/core/'
 import { DeleteOutlineTwoTone, RemoveCircleOutline } from '@material-ui/icons';
 import GoogleMapReact from 'google-map-react'
-import MapPointer from './MapPointer';
-import DriverSelectModal from '../Components/DriverSelectModal/DriverSelectModal'
+import MapPointer from './MapPointer/MapPointer';
+import DriverSelectModal from '../Dashboard/DriverSelectModal/DriverSelectModal'
 
 const key = `AIzaSyC0VaGsv4vdS6aBw7otqrikEI4ykWbQRbE`
 

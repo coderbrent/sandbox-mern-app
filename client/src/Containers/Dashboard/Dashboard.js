@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import VehicleTile from '../../Components/VehicleTile'
-import VehicleDisplay from '../../Components/VehicleDisplay'
-import Spinner from 'react-spinkit'
-import TripDisplay from '../../Components/TripDisplay/TripDisplay'
-import NewTripModal from '../../Components/NewTripModal/NewTripModal'
-import TripTable from '../../Components/TripDisplay/NewTripDisplay'
+import NewTripModal from '../../Components/Dashboard/NewTripModal/NewTripModal'
+import TripTable from '../../Components/Dashboard/TripDisplay/TableTripDisplay'
 import GoogleMapReact from 'google-map-react'
-import MapPointer from '../../Components/MapPointer'
-import NewTripForm from '../../Components/NewTripForm/NewTripForm'
+import MapPointer from '../../Components/Dashboard/GoogleMap/MapPointer/MapPointer'
+import MaterialTripDisplay from '../../Components/Dashboard/TripDisplay/MaterialTripDisplay'
+import NewVehicleModal from '../../Components/Dashboard/NewVehicleModal/NewVehicleModal'
 
 const Dashboard = () => {
   const [vehicleList, setVehicleList] = useState()
@@ -39,7 +36,7 @@ const Dashboard = () => {
   
   return (
     <>
-    <div style={{ height: `75vh`, width: `100%`}}>
+    <div style={{ height: `33vh`, width: `100%`}}>
     <GoogleMapReact
       bootstrapURLKeys={{
         key: key,
@@ -63,11 +60,15 @@ const Dashboard = () => {
     }
     </GoogleMapReact>
     </div>
-    <NewTripForm />
-    <NewTripModal />
     <TripTable />
-    <TripDisplay />
-    <VehicleDisplay>
+
+    <NewTripModal />
+    <NewVehicleModal />
+    <MaterialTripDisplay
+      tripData={trips}
+     
+    />
+    {/* <VehicleDisplay>
       {
         vehicleList ? vehicleList.vehicles.map((car, i) => (
           <div key={i} style={{ listStyle: 'none' }}>
@@ -81,7 +82,7 @@ const Dashboard = () => {
           </div>
         )) : <Spinner name="ball-scale-ripple" color="purple"/>
       }
-    </VehicleDisplay>
+    </VehicleDisplay> */}
     </>
   )
 }

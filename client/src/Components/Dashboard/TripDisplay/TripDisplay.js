@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import useGetData from '../../Hooks/useGetData'
+import useGetData from '../../../Hooks/useGetData'
 import Container from '@material-ui/core/Container'
 import TripTile from '../TripTile'
 import Spinner from 'react-spinkit'

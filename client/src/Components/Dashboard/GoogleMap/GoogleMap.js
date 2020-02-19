@@ -1,6 +1,6 @@
 import React from 'react';
 import GoogleMapReact from 'google-map-react'
-import MapPointer from '../Components/MapPointer'
+import MapPointer from '../MapPointer/MapPointer'
 
 const GoogleMap = ({ lat, lng, trips }) => {
   const key = `AIzaSyC0VaGsv4vdS6aBw7otqrikEI4ykWbQRbE`

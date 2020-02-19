@@ -1,7 +1,5 @@
 import React from 'react';
-import Dashboard from '../src/Views/Dashboard/Dashboard';
-import { Provider } from 'react-redux';
-import store from '../src/store'
+import Dashboard from '../src/Containers/Dashboard/Dashboard';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import MomentUtils from '@date-io/moment'
 // import Auth from '../src/Views/Auth/Auth'
@@ -9,12 +7,9 @@ import MomentUtils from '@date-io/moment'
 function App() {
   return (
     <>
-    {/* <Provider store={store}> */}
-      {/* <Auth /> */}
-      <MuiPickersUtilsProvider utils={MomentUtils}>
-        <Dashboard />
-      </MuiPickersUtilsProvider>
-    {/* </Provider> */}
+    <MuiPickersUtilsProvider utils={MomentUtils}>
+      <Dashboard />
+    </MuiPickersUtilsProvider>
     </>
   );
 }
