@@ -1,6 +1,5 @@
 import React from 'react'
 import { DriveEtaRounded } from '@material-ui/icons';
-import classes from './mappointer.module.css'
 
 const pinStyle = {
   borderRadius: '10px',

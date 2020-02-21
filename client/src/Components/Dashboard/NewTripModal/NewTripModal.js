@@ -6,7 +6,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
 import { 
   MenuItem,
   InputLabel,
@@ -21,8 +20,6 @@ export default function NewTripModal() {
   const [selectedDate, setSelectedDate] = useState(new Date())
   const [selectedType, setSelectedType] = useState('')
   const [inputs, setInputs] = useState({ pu_time: '', pu_addr: '' })
-  const [coordinates, setCoordinates] = useState({ lat: '', lng: '' })
-  const [address, setAddress] = useState('')
  
   const useStyles = makeStyles(theme => ({
     root: {
@@ -43,55 +40,6 @@ export default function NewTripModal() {
   }));
   
   const classes = useStyles();
-
-  const GoogleAutoComplete = () => {
-
-    const handleSelect = async value => {
-      const results = await geocodeByAddress(value);
-      const latLng = await getLatLng(results[0]);
-    
-      setInputs({ pu_addr: value })
-      setAddress(value)
-      setCoordinates(latLng)
-    
-      console.log(results);
-    };
-    
-    const searchOptions = {
-      types: ['address']
-    }
-    
-    return (
-      <PlacesAutocomplete 
-        value={address} 
-        onChange={setAddress} 
-        onSelect={handleSelect}
-        searchOptions={searchOptions}
-      >
-    {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-      <div>
-        <TextField {...getInputProps({ placeholder: "Enter an Address" })} 
-          type="text" 
-        /> 
-      <div>
-        { suggestions.map(suggestion => {
-          const style = {
-            fontFamily: 'Roboto',
-           fontSize: 'smaller',
-           backgroundColor: suggestion.active ? "rgb(3, 210, 152)" : "rgba(0, 0, 0, 0.100)"
-          }
-            return (
-              <div {...getSuggestionItemProps(suggestion, { style })}> 
-                { suggestion.description }
-              </div>
-            ) 
-        })}
-      </div>
-      </div>
-    )} 
-    </PlacesAutocomplete>
-    )
-  }
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -184,7 +132,6 @@ export default function NewTripModal() {
             <MenuItem value={'Local'}>Local</MenuItem>
             <MenuItem value={'NYC'}>NYC</MenuItem>
           </Select>
-          <GoogleAutoComplete />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

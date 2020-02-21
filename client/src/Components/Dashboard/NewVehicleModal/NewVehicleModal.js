@@ -10,34 +10,12 @@ import {
   MenuItem,
   Select,
 } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles';
 
 export default function NewTripModal() {
   const [vehicleList, setVehicleList] = useState([])
   const [open, setOpen] = useState(false)
   const [selectedType, setSelectedType] = useState(null)
- 
-  // const useStyles = makeStyles(theme => ({
-  //   root: {
-  //     flexGrow: 1,
-  //   },
-  //   paper: {
-  //     padding: theme.spacing(4),
-  //     textAlign: 'left',
-  //     color: theme.palette.text.primary,
-  //     width: `3rem`
-  //   },
-  //   formControl: {
-  //     margin: theme.spacing(1),
-  //     minWidth: 120,
-  //   },
-  //   selectEmpty: {
-  //     marginTop: theme.spacing(2),
-  //   },
-  // }));
-  
-  // const classes = useStyles();
-
+   
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -96,7 +74,7 @@ export default function NewTripModal() {
               name="vehicle-make"
               labelId="demo-simple-select-outlined-label"
               id="demo-simple-select-outlined"
-              // onChange={handleSelect}
+              onChange={handleSelect}
               value={selectedType}
               required
             >
@@ -109,7 +87,7 @@ export default function NewTripModal() {
                 </MenuItem>
               )) }
           </Select>
-
+          <TextField></TextField>
         </DialogContent>
         <DialogActions>
           <Button onClick={addNewVehicle} color="primary">

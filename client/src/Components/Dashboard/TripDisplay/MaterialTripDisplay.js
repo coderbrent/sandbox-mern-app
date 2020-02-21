@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import MaterialTable from 'material-table'
 
 const MaterialTripDisplay = () => {
