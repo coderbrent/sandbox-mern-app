@@ -5,6 +5,7 @@ import MaterialTripDisplay from '../../Components/Dashboard/TripDisplay/Material
 import NewVehicleModal from '../../Components/Dashboard/NewVehicleModal/NewVehicleModal'
 import { Button } from '@material-ui/core';
 import GoogleMap from '../../Components/Dashboard/GoogleMap/GoogleMap'
+import NewDriverModal from '../../Components/Dashboard/NewDriverModal/NewDriverModal'
 
 const Dashboard = () => {
   const [trips, setTrips] = useState([])
@@ -41,6 +42,7 @@ const Dashboard = () => {
       <Button onClick={() => console.log(trips[0].puAddr.location)}>Click to console trips</Button>
     <NewTripModal />
     <NewVehicleModal />
+    <NewDriverModal />
     <MaterialTripDisplay
       tripData={trips}
     />

@@ -2,12 +2,15 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const driverSchema = new Schema({
-  first_name: { type: String, required: true },
-  last_name: { type: String, required: true },
-  email: { type: String, required: true },
-  phone: { type: String, required: true },
-  image: { type: String, required: true },
-  seniority: String,
+  first_name: String,
+  last_name: String,
+  email: String,
+  phone: String,
+  street: String,
+  city: String,
+  state: String,
+  zipcode: Number,
+  image: Object,
 });
 
 driverSchema.virtual('fullName')
