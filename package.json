@@ -2,7 +2,7 @@
   "name": "reserve-a-car",
   "version": "1.0.0",
   "description": "a simple vehicle reservation dispatch system",
-  "main": "/server/server.js",
+  "main": "/client/src/index.js",
   "repository": "git@github.com:coderbrent/reserve-a-car.git",
   "author": "Brent Abruzese <brent.abruzese@gmail.com>",
   "license": "MIT",
