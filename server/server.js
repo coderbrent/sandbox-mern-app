@@ -2,17 +2,16 @@ require('dotenv').config();
 const express = require('express')
 const port = 5000 || process.env.PORT
 const app = express()
+const path = require('path')
 const mongoose = require('mongoose')
-const bodyParser = require('body-parser')
 // const userRoutes = require('../server/routes/userRoutes')
 const publicPath = path.join(__dirname, '..', 'public');
 const locationRoutes = require('../server/routes/locationRoutes')
 const tripRoutes = require('../server/routes/tripRoutes')
 const driverRoutes = require('../server/routes/driverRoutes')
 const vehicleRoutes = require('../server/routes/vehicleRoutes')
+const dbCreds = process.env.DB_PASS
 
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.json())
 
 app.use(express.static(publicPath));
@@ -26,7 +25,7 @@ app.use('/vehicles', vehicleRoutes)
 const db = mongoose.connection
 
 mongoose.connect
-  ('mongodb://localhost:27017/reservation', 
+  (`mongodb+srv://brent:${dbCreds}@cluster0-bfb3g.mongodb.net/test?retryWrites=true&w=majority`, 
     { 
       useNewUrlParser: true, 
       useUnifiedTopology: true 

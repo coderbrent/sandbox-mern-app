@@ -5,7 +5,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { Input, Avatar } from '@material-ui/core';
+import { Input, Avatar, Container } from '@material-ui/core';
 import MessageDisplay from '../MessageDisplay'
 import PropTypes from 'prop-types'
 
@@ -24,11 +24,11 @@ export default function FormDialog() {
 			state: '',
 			zipcode: '',
 		})
-	const [driverImg, setDriverImg] = useState({ image: '', loaded: 0 })
+	const [driverImg, setDriverImg] = useState({ image: null, loaded: 0 })
 
 	const changeHandler = e => {
 		console.log(URL.createObjectURL(e.target.files[0]))
-		setDriverImg({ image: URL.createObjectURL(e.target.files[0]).replace(/blob:/, '') })
+		setDriverImg({ ...driverImg, image: URL.createObjectURL(e.target.files[0]).replace(/blob:/, '') })
 	}
 
   const handleClickOpen = () => {
@@ -42,40 +42,29 @@ export default function FormDialog() {
 	const addDriver = e => {
 		e.preventDefault()
 
-		const formData = new FormData()
-		formData.append('first_name', formInputs.first_name)
-		formData.append('last_name', formInputs.last_name)
-		formData.append('email', formInputs.email)
-		formData.append('phone', formInputs.phone)
-		formData.append('street', formInputs.street)
-		formData.append('city', formInputs.city)
-		formData.append('state', formInputs.state)
-		formData.append('zipcode', formInputs.zipcode)
-		formData.append('image', driverImg.image)
-
-		// const newDriver = {
-		// 	first_name: formInputs.first_name,
-		// 	last_name: formInputs.last_name,
-		// 	email: formInputs.email,
-		// 	phone: formInputs.phone,
-		// 	street: formInputs.street,
-		// 	city: formInputs.city,
-		// 	state: formInputs.state,
-		// 	zipcode: formInputs.zipcode,
-		// 	image: imgData,
-		// }
+		const newDriver = {
+			first_name: formInputs.first_name,
+			last_name: formInputs.last_name,
+			email: formInputs.email,
+			phone: formInputs.phone,
+			street: formInputs.street,
+			city: formInputs.city,
+			state: formInputs.state,
+			zipcode: formInputs.zipcode,
+			image: driverImg,
+		}
 
 		fetch(`/drivers/add-driver`, 
 			{ 
 				method: `POST`,
 				headers: {
-        	'Content-Type': 'multipart/form-data'
+        	'Content-Type': 'application/json'
       	},
-				body: formData
+				body: JSON.stringify(newDriver)
 			})
 			.then(response => { 
 				if(response.ok) {
-					setMessage(`Driver was successfully added!`)
+					setMessage(`Driver ${formInputs.first_name} ${formInputs.last_name} was successfully added!`)
 				} else {
 					setMessage(`Driver was not set due to an error.`)
 				}
@@ -93,11 +82,18 @@ export default function FormDialog() {
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         Add Driver
       </Button>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+			<Dialog 
+				open={open} 
+				onClose={handleClose} 
+				aria-labelledby="form-dialog-title"
+				maxWidth="xl"
+			>
 				<form>
+				<Container maxWidth="sm">
         <DialogTitle id="form-dialog-title">Add Driver</DialogTitle>
         <DialogContent>
-          <TextField
+          <div style={{ display: `flex`}}>
+					<TextField
             autoFocus
             margin="dense"
 						id="first_name"
@@ -117,9 +113,12 @@ export default function FormDialog() {
 						onChange={e => setFormInputs({...formInputs, [e.target.name]: e.target.value})}
             fullWidth
           />
+					</div>
+					<div style={{ display: `flex`}}>
 					<TextField
+						style={{ marginRight: `2rem`}}
             autoFocus
-            margin="dense"
+            margin="normal"
 						id="email"
 						name="email"
             label="E-Mail"
@@ -129,14 +128,14 @@ export default function FormDialog() {
           />
 					<TextField
             autoFocus
-            margin="dense"
-						id="phone"
+            margin="normal"
 						name="phone"
-            label="Phone Number"
+						label="Phone Number"
 						type="tel"
 						onChange={e => setFormInputs({...formInputs, [e.target.name]: e.target.value})}
             fullWidth
           />
+					</div>
 					<TextField
             autoFocus
             margin="dense"
@@ -193,6 +192,7 @@ export default function FormDialog() {
             Add
           </Button>
         </DialogActions>
+				</Container>
 				</form>
       </Dialog>
     </div>

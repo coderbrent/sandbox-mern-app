@@ -2,6 +2,7 @@ import React from 'react';
 import Dashboard from '../src/Containers/Dashboard/Dashboard';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import MomentUtils from '@date-io/moment'
+import Drivers from './Containers/Drivers/Drivers';
 // import Auth from '../src/Views/Auth/Auth'
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
     <>
     <MuiPickersUtilsProvider utils={MomentUtils}>
       <Dashboard />
+      {/* <Drivers /> */}
     </MuiPickersUtilsProvider>
     </>
   );
