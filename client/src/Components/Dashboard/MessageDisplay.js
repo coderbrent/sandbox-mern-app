@@ -4,7 +4,7 @@ import Alert from '@material-ui/lab/Alert'
 
 export default function MessageDisplay({ message, openState, severityProp }) {
   const [state, setState] = useState({
-    open: false,
+    open: openState,
     vertical: 'top',
     horizontal: 'center',
     severity: severityProp,
@@ -12,9 +12,9 @@ export default function MessageDisplay({ message, openState, severityProp }) {
 
   const { vertical, horizontal, open, severity } = state;
 
-  const handleClick = newState => () => {
-    setState({ open: open, ...newState });
-  };
+  // const handleClick = newState => () => {
+  //   setState({ open: open, ...newState });
+  // };
 
   const handleClose = () => {
     setState({ ...state, open: false });
@@ -25,7 +25,7 @@ export default function MessageDisplay({ message, openState, severityProp }) {
       <Snackbar
         anchorOrigin={{ vertical, horizontal }}
         key={`${vertical},${horizontal}`}
-        open={openState}
+        open={open}
         autoHideDuration={3000}
         onClose={handleClose}
       >

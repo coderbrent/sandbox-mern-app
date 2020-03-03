@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import GoogleMapReact from 'google-map-react'
-import MapPointer from './MapPointer/MapPointer'
 
 const MapMarker = ({ text }) => <div>{text}</div>
 
 const GoogleMap = ({ lat, lng, trips }) => {
-  const [coords, setCoords] = useState(null)
+  // const [coords, setCoords] = useState(null)
 
   const key = `AIzaSyC0VaGsv4vdS6aBw7otqrikEI4ykWbQRbE`
   return (

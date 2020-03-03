@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -52,6 +51,7 @@ export default function NewTripModal() {
       case 'Ford': return setAvailableModels(vehicleinfo.models.Ford)
       case 'Lincoln': return setAvailableModels(vehicleinfo.models.Lincoln)
       case 'Cadillac': return setAvailableModels(vehicleinfo.models.Cadillac)
+      default: return;
     }
   }
 

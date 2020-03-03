@@ -62,8 +62,14 @@ router.get(`/all-drivers`, (req, res) => {
   })
 })
 
-router.get(`/get-driver/:id`, (req, res) => {
-  
+router.delete(`/delete-driver/:id`, (req, res) => {
+  const { id } = req.params
+
+  DriverModel.findByIdAndDelete(id, (err, response) => {
+    if(err) throw err
+    res.json({ response })
+  })
+
 })
 
 router.put(`/update-driver/:id`, (req, res) => {

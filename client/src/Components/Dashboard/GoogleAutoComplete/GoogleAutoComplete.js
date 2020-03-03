@@ -13,7 +13,7 @@ const GoogleAutoComplete = () => {
     setAddress(value)
     setCoordinates(latLng)
     
-    console.log(results);
+    console.log(results, coordinates);
   };
   
   const searchOptions = {

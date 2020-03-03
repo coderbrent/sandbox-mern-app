@@ -12,7 +12,6 @@ import {
   Select,
 } from '@material-ui/core'
 import { DatePicker } from '@material-ui/pickers'
-// import { AccessAlarmOutlined, PlaceOutlined } from '@material-ui/icons'
 import GoogleAutoComplete from '../GoogleAutoComplete/GoogleAutoComplete';
 import { DateRangeTwoTone, MapTwoTone } from '@material-ui/icons';
 

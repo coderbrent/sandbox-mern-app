@@ -62,8 +62,9 @@ function newDriverReducer(state, action) {
 				message: action.payload
 			}
 		}
+		default: return state;
 	}
-	return state;
+
 }
 
 const initialState = {
@@ -109,7 +110,7 @@ export default function FormDialog() {
 			city: state.city,
 			state: state.state,
 			zipcode: state.zipcode,
-			image: `/brentphoto.png`,
+			image: state.driverImg,
 		}
 
 		await fetch(`/drivers/add-driver`, 
