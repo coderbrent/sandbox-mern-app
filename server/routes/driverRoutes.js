@@ -40,18 +40,24 @@ router.post(`/add-driver`, async (req, res) => {
       image: image,
     });
 
-  newDriver.save(function(err) {
-    if(err) return console.log(err);
-    console.log('driver was saved!')
+
+    DriverModel.findOne({ email: newDriver.email }, function(err, driver) {
+      if(err) throw err
+      if(!driver) {
+        newDriver.save(function(err) {
+          if(err) throw err
+          res.send({ message: 'a new driver was added'})
+        })
+        } else {
+          res.send({ errType: 'DUP_EMAIL', message: `A driver with the e-mail address ${newDriver.email} already exists`})
+        } 
+      })
   })
-  res.json({ newDriver })
-  res.end()
-})
+  
 
 router.get(`/all-drivers`, (req, res) => {
   DriverModel.find({}, (err, response) => {
     if(err) console.log(err);
-    console.log(response)
     res.json(response)
   })
 })

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -6,55 +6,113 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Input, Container } from '@material-ui/core';
-import MessageDisplay from '../MessageDisplay'
-import { Add } from '@material-ui/icons';
+import MessageDisplay from '../MessageDisplay';
+import { AddCircle } from '@material-ui/icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser, faSpinner } from '@fortawesome/free-solid-svg-icons';
+
+function newDriverReducer(state, action) {
+	switch(action.type) {
+		case 'loading': {
+			return {
+				...state,
+				isLoading: true
+			}
+		}
+		case 'success': {
+			return {
+				...state,
+				msgType: 'success',
+				modalOpen: false,
+				isLoading: false,
+				msgState: true,
+				message: `${state.first_name} was successfully added as a driver!`
+			}
+		}
+		case 'close': {
+			return {
+				...state,
+				modalOpen: false,
+				isLoading: false,
+				msgState: false,
+				message: ''
+			}
+		}
+		case 'open': {
+			return {
+				...state,
+				modalOpen: true,
+				isLoading: false,
+				msgState: false,
+				message: ''
+			}
+		}
+		case 'field': {
+			return {
+				...state,
+				[action.field]: action.value
+			}
+		}
+		case 'error': {
+			return {
+				...state,
+				error: true,
+				msgType: 'error',
+				msgState: true,
+				message: action.payload
+			}
+		}
+	}
+	return state;
+}
+
+const initialState = {
+	msgType: '',
+	error: false,
+	modalOpen: false,
+	isLoading: false,
+	message: '',
+	msgState: false,
+	first_name: '',
+	last_name: '',
+	email: '',
+	phone: '',
+	street: '',
+	city: '',
+	state: '',
+	zipcode: '',
+	driverImg: '',
+}
 
 export default function FormDialog() {
-	const [open, setOpen] = useState(false)
-	const [message, setMessage] = useState('')
-	const [msgState, setMsgState] = useState(false)
-	const [formInputs, setFormInputs] = 
-		useState({ 
-			first_name: '',
-			last_name: '',
-			email: '',
-			phone: '',
-			street: '',
-			city: '',
-			state: '',
-			zipcode: '',
-		})
-	const [driverImg, setDriverImg] = useState({ image: null, loaded: 0 })
+	const [state, dispatch] = useReducer(newDriverReducer, initialState)
+	const { 
+		modalOpen, 
+		isLoading, 
+		message, 
+		msgState,
+		error,
+		msgType,
+	} = state
 
-	const changeHandler = e => {
-		console.log(URL.createObjectURL(e.target.files[0]))
-		setDriverImg({ ...driverImg, image: URL.createObjectURL(e.target.files[0]).replace(/blob:/, '') })
-	}
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-	};
-
-	const addDriver = e => {
+	const addDriver = async e => {
 		e.preventDefault()
 
+		dispatch({ type: 'loading' })
+
 		const newDriver = {
-			first_name: formInputs.first_name,
-			last_name: formInputs.last_name,
-			email: formInputs.email,
-			phone: formInputs.phone,
-			street: formInputs.street,
-			city: formInputs.city,
-			state: formInputs.state,
-			zipcode: formInputs.zipcode,
+			first_name: state.first_name,
+			last_name: state.last_name,
+			email: state.email,
+			phone: state.phone,
+			street: state.street,
+			city: state.city,
+			state: state.state,
+			zipcode: state.zipcode,
 			image: `/brentphoto.png`,
 		}
 
-		fetch(`/drivers/add-driver`, 
+		await fetch(`/drivers/add-driver`, 
 			{ 
 				method: `POST`,
 				headers: {
@@ -62,93 +120,136 @@ export default function FormDialog() {
       	},
 				body: JSON.stringify(newDriver)
 			})
-			.then(response => { 
+			.then(response => {
 				if(response.ok) {
-					setMessage(`Driver ${formInputs.first_name} ${formInputs.last_name} was successfully added!`)
+					return response.json()
 				} else {
-					setMessage(`Driver was not added due to an error.`)
+					dispatch({ type: error, payload: response.status })
 				}
 			})
-			.then(result => {
-				setMsgState(true)
-				return result
+			.then(result => { //maybe change this to a switch to handle a variety of error types?
+				if(result.errType === 'DUP_EMAIL') {
+					return dispatch({ type: 'error', payload: result.message })
+				} else {
+					return dispatch({ type: 'success'})
+				}
 			})
-			handleClose();
 	}
 
   return (
     <div>
-			{ msgState ? <MessageDisplay openState={msgState} message={message} /> : null }
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Add Driver <Add />
+			{ msgState ? <MessageDisplay severityProp={msgType} openState={msgState} message={message} /> : null }
+			{ error ? <MessageDisplay severityProp={msgType} openState={msgState} message={message} /> : null }
+			<Button 
+				variant="contained" 
+				color="secondary" 
+				onClick={() => dispatch({ type: `open`})}>
+        Add Driver <AddCircle />
       </Button>
 			<Dialog 
-				open={open} 
-				onClose={handleClose} 
+				open={modalOpen} 
+				onClose={() => dispatch({ type: `close`})} 
 				aria-labelledby="form-dialog-title"
 				maxWidth="xl"
 			>
-				<form>
+			<form>
 				<Container maxWidth="sm">
         <DialogTitle id="form-dialog-title">Add Driver</DialogTitle>
         <DialogContent>
           <div style={{ display: `flex`}}>
+					<FontAwesomeIcon icon={faUser} />
 					<TextField
-            autoFocus
+						autoFocus
+						variant="outlined"
             margin="dense"
 						id="first_name"
 						name="first_name"
             label="First Name"
 						type="text"
-						onChange={e => setFormInputs({...formInputs, [e.target.name]: e.target.value})}
+						onChange={e => 
+							dispatch({ 
+								type: 'field', 
+								field: 'first_name', 
+								value: e.target.value
+							})
+						}
 						fullWidth
 						required={true}
           />
         	<TextField
 						autoFocus
+						variant="outlined"
 						style={{ marginLeft: `2rem`}}
             margin="dense"
 						id="last_name"
 						name="last_name"
             label="Last Name"
 						type="text"
-						onChange={e => setFormInputs({...formInputs, [e.target.name]: e.target.value})}
+						onChange={e => 
+							dispatch({ 
+								type: 'field', 
+								field: 'last_name', 
+								value: e.target.value
+							})
+						}
             fullWidth
           />
 					</div>
 					<div style={{ display: `flex`}}>
 					<TextField
 						style={{ marginRight: `2rem`}}
-            autoFocus
+						autoFocus
+						variant="outlined"
             margin="normal"
 						id="email"
 						name="email"
             label="E-Mail"
 						type="email"
-						onChange={e => setFormInputs({...formInputs, [e.target.name]: e.target.value})}
+						onChange={e => 
+							dispatch({ 
+								type: 'field', 
+								field: 'email', 
+								value: e.target.value
+							})
+						}
             fullWidth
           />
 					<TextField
-            autoFocus
+						autoFocus
+						variant="outlined"
             margin="normal"
 						name="phone"
 						label="Phone Number"
 						type="tel"
-						onChange={e => setFormInputs({...formInputs, [e.target.name]: e.target.value})}
+						onChange={e => 
+							dispatch({ 
+								type: 'field', 
+								field: 'phone', 
+								value: e.target.value
+							})
+						}
             fullWidth
           />
 					</div>
 					<TextField
+						variant="outlined"
             autoFocus
             margin="dense"
 						id="street"
 						name="street"
             label="Street"
 						type="text"
-						onChange={e => setFormInputs({...formInputs, [e.target.name]: e.target.value})}
+						onChange={e => 
+							dispatch({ 
+								type: 'field', 
+								field: 'street', 
+								value: e.target.value
+							})
+						}
             fullWidth
           />
 					<TextField
+						variant="outlined"
             autoFocus
             margin="dense"
 						id="city"
@@ -156,20 +257,34 @@ export default function FormDialog() {
 						label="City"
 						fullWidth
 						type="text"
-						onChange={e => setFormInputs({...formInputs, [e.target.name]: e.target.value})}
+						onChange={e => 
+							dispatch({ 
+								type: 'field', 
+								field: 'city', 
+								value: e.target.value
+							})
+						}
           />
 					<div style={{ display: `flex`, marginBottom: `1rem`}}>
 					<TextField
+						variant="outlined"
             autoFocus
             margin="dense"
 						id="state"
 						name="state"
             label="State"
 						type="text"
-						onChange={e => setFormInputs({...formInputs, [e.target.name]: e.target.value})}
+						onChange={e => 
+							dispatch({ 
+								type: 'field', 
+								field: 'state', 
+								value: e.target.value
+							})
+						}
             fullWidth
           />
 					<TextField
+						variant="outlined"
 						style={{ marginLeft: `2rem`}}
             autoFocus
             margin="dense"
@@ -177,22 +292,30 @@ export default function FormDialog() {
 						name="zipcode"
             label="Zip Code"
 						type="number"
-						onChange={e => setFormInputs({...formInputs, [e.target.name]: e.target.value})}
+						onChange={e => 
+							dispatch({ 
+								type: 'field', 
+								field: 'zipcode', 
+								value: e.target.value
+							})
+						}
             fullWidth
           />
 					</div>
-					<Input 
+					<Input
+						variant="outlined"
 						name="image"
 						type="file"
-						onChange={changeHandler}
+						//add onChange handler
 					/>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} type="reset" color="primary">
+          <Button onClick={() => dispatch({ type: 'close'})} type="reset" color="primary">
             Cancel
           </Button>
           <Button onClick={addDriver} color="primary">
             Add
+					{ isLoading ? <FontAwesomeIcon icon={faSpinner} spin /> : null }
           </Button>
         </DialogActions>
 				</Container>
