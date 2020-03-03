@@ -11,26 +11,8 @@ import {
   Select,
 } from '@material-ui/core'
 import { DatePicker } from '@material-ui/pickers'
-import { AccessAlarmOutlined, PlaceOutlined } from '@material-ui/icons'
+import { AccessAlarmOutlined } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-  },
-  paper: {
-    padding: theme.spacing(4),
-    textAlign: 'left',
-    color: theme.palette.text.primary,
-  },
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-}));
 
 const NewTripForm = () => {
   const [selectedDate, setSelectedDate] = useState(new Date())
@@ -42,8 +24,6 @@ const NewTripForm = () => {
   useEffect(() => {
     setLabelWidth(inputLabel.current.offsetWidth);
   }, []);
-
-  const classes = useStyles(); 
 
   const handleInputChange = e => {
     e.persist();
@@ -81,17 +61,16 @@ const NewTripForm = () => {
   
   return (
     <>
-    <div className={classes.root}>
+    <div>
       <Grid container spacing={1}>
         <Grid item xs={8}>
-          <Paper className={classes.paper}>
+          <Paper>
             <Typography
               variant={'h6'}
               color={'textPrimary'}>
               Add New Trip
             </Typography>
             <form 
-              className={classes.root} 
               noValidate 
               autoComplete="off"
             >
@@ -110,7 +89,6 @@ const NewTripForm = () => {
                   type="time"
                   onChange={handleInputChange}
                   defaultValue="05:30"
-                  className={classes.textField}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -122,7 +100,6 @@ const NewTripForm = () => {
                 </Grid>
                 <FormControl 
                   variant="outlined" 
-                  className={classes.formControl}
                 >
                   <InputLabel 
                     ref={inputLabel} 

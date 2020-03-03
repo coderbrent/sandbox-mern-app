@@ -6,15 +6,16 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import vehicleinfo from '../vehicleinfo.json'
 import { 
   MenuItem,
   Select,
 } from '@material-ui/core'
 
 export default function NewTripModal() {
-  const [vehicleList, setVehicleList] = useState([])
   const [open, setOpen] = useState(false)
-  const [selectedType, setSelectedType] = useState(null)
+  const [availableModels, setAvailableModels] = useState([])
+  const [selectedVehicle, setSelectedVehicle] = useState({ year: '', make: '', model: '' })
    
   const handleClickOpen = () => {
     setOpen(true);
@@ -24,15 +25,13 @@ export default function NewTripModal() {
     setOpen(false);
   };
 
-  const handleSelect = e => {
-    setSelectedType(e.target.value);
-  }
-
   const addNewVehicle = e => {
     e.preventDefault()
 
     const newVehicle = {
-      make: 'Ford'
+      make: selectedVehicle.make,
+      year: selectedVehicle.year,
+      model: selectedVehicle.model
     }
 
     fetch(`/vehicles/add-vehicle`, { 
@@ -48,46 +47,86 @@ export default function NewTripModal() {
    handleClickOpen();
   }
 
-  useEffect(() => {
-    const getVehicleList = async () => {
-      await fetch(`/vehicles/vehicle-list`)
-        .then(response => response.json())
-        .then(data => {
-          setVehicleList(data)
-        })
+  const vehicleSelector = make => {
+    switch(make) {
+      case 'Ford': return setAvailableModels(vehicleinfo.models.Ford)
+      case 'Lincoln': return setAvailableModels(vehicleinfo.models.Lincoln)
+      case 'Cadillac': return setAvailableModels(vehicleinfo.models.Cadillac)
     }
-    getVehicleList();
-  },[])
+  }
+
+  const handleChange = e => {
+    setSelectedVehicle({...selectedVehicle, [e.target.name]: e.target.value })
+    vehicleSelector(e.target.value)
+  }
 
   return (
     <div>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         New Vehicle
       </Button>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <Dialog 
+        maxWidth="xl" 
+        open={open} 
+        onClose={handleClose} 
+        aria-labelledby="form-dialog-title"
+      >
         <DialogTitle id="form-dialog-title">Add A New Vehicle</DialogTitle>
         <DialogContent>
           <DialogContentText>
             Add A New Vehicle
           </DialogContentText>
             <Select
-              name="vehicle-make"
-              labelId="demo-simple-select-outlined-label"
-              id="demo-simple-select-outlined"
-              onChange={handleSelect}
-              value={selectedType}
+              name="year"
+              label="Years"
+              id="year-select"
+              onChange={e => setSelectedVehicle({ ...selectedVehicle, [e.target.name]: e.target.value })}
+              value={selectedVehicle.year}
               required
             >
-              { vehicleList.map((make, i) => (
-                <MenuItem 
-                  key={i}
-                  value={i}
-                  >
-                  { make.makes[i] }
-                </MenuItem>
-              )) }
+            { vehicleinfo.years.map((year, i) => (
+            <MenuItem 
+              value={year}
+              key={i}
+            >
+              {year}
+            </MenuItem> 
+          ))}
           </Select>
-          <TextField></TextField>
+          <Select
+              name="make"
+              label="Make"
+              id="make-select"
+              onChange={handleChange}
+              value={selectedVehicle.make}
+              required
+            >
+            { vehicleinfo.makes.map((make, i) => (
+            <MenuItem 
+              value={make}
+              key={i}
+            >
+              {make}
+            </MenuItem> 
+          ))}
+          </Select>
+          <Select
+            name="model"
+            label="Model"
+            id="model-select"
+            onChange={e => setSelectedVehicle({ ...selectedVehicle, [e.target.name]: e.target.value })}
+            value={selectedVehicle.model}
+            required
+          >
+            { availableModels.map((model, i) => (
+            <MenuItem 
+              value={model}
+              key={i}
+            >
+              {model}
+            </MenuItem> 
+          ))}
+          </Select>
         </DialogContent>
         <DialogActions>
           <Button onClick={addNewVehicle} color="primary">

@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Grid } from '@material-ui/core'
 
 const VehicleDisplay = ({ children }) => {
+
   return (
     <>
       <Container style={{ backgroundColor: `#222`}}>

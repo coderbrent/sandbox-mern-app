@@ -19,8 +19,8 @@ const GoogleMap = ({ lat, lng, trips }) => {
       center={{lat: 39.9490, lng: -79.2949 }}
       defaultZoom={10}
     >
+    
     <MapMarker 
-      text={"Holla!"}
       lat={36.2949}
       lng={-77.39029}
     />

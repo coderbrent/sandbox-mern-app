@@ -14,6 +14,8 @@ import {
 import { DatePicker } from '@material-ui/pickers'
 // import { AccessAlarmOutlined, PlaceOutlined } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/core/styles';
+import GoogleAutoComplete from '../GoogleAutoComplete/GoogleAutoComplete';
+import { DateRangeTwoTone, MapTwoTone } from '@material-ui/icons';
 
 export default function NewTripModal() {
   const [open, setOpen] = useState(false);
@@ -21,26 +23,6 @@ export default function NewTripModal() {
   const [selectedType, setSelectedType] = useState('')
   const [inputs, setInputs] = useState({ pu_time: '', pu_addr: '' })
  
-  const useStyles = makeStyles(theme => ({
-    root: {
-      flexGrow: 1,
-    },
-    paper: {
-      padding: theme.spacing(4),
-      textAlign: 'left',
-      color: theme.palette.text.primary,
-    },
-    formControl: {
-      margin: theme.spacing(1),
-      minWidth: 120,
-    },
-    selectEmpty: {
-      marginTop: theme.spacing(2),
-    },
-  }));
-  
-  const classes = useStyles();
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -90,18 +72,42 @@ export default function NewTripModal() {
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         New Trip
       </Button>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <Dialog 
+        fullWidth 
+        open={open} 
+        onClose={handleClose} 
+        aria-labelledby="form-dialog-title"
+      >
         <DialogTitle id="form-dialog-title">Enter A New Trip</DialogTitle>
         <DialogContent>
           <DialogContentText>
-          Use this form to create a new trip!
+            Use this form to create a new trip!
           </DialogContentText>
-          <DatePicker 
-            name="pu_date" 
-            value={selectedDate}
-            onChange={setSelectedDate}
-            required
-          />
+          <div 
+            style={{ 
+              display: `inline-flex`, 
+              alignItems: `center`,
+              justifyContent: `space-evenly`
+            }}
+          >
+            <DateRangeTwoTone />
+            <DatePicker 
+              name="pu_date" 
+              value={selectedDate}
+              onChange={setSelectedDate}
+              autoOk={true}
+              disablePast={true}
+              required
+            />
+          </div>
+          <div 
+            style={{ 
+              display : `inline-flex`, 
+              alignItems: `center`, 
+              justifyContent: `space-evenly`
+            }}
+          >
+          <MapTwoTone />
           <TextField
             id="userPickupTime"
             label="Pickup Time"
@@ -109,12 +115,12 @@ export default function NewTripModal() {
             type="time"
             onChange={handleInputChange}
             defaultValue="05:30"
-            className={classes.textField}
             inputProps={{
               step: 300, // 5 min intervals
             }}
             required
           />
+          </div>
            <InputLabel 
               id="demo-simple-select-outlined-label"
             >
@@ -132,6 +138,13 @@ export default function NewTripModal() {
             <MenuItem value={'Local'}>Local</MenuItem>
             <MenuItem value={'NYC'}>NYC</MenuItem>
           </Select>
+          <div 
+            style={{ 
+              width: `100%`
+            }}
+          >
+            <GoogleAutoComplete />
+          </div>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

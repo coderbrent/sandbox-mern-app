@@ -5,9 +5,9 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { Input, Avatar, Container } from '@material-ui/core';
+import { Input, Container } from '@material-ui/core';
 import MessageDisplay from '../MessageDisplay'
-import PropTypes from 'prop-types'
+import { Add } from '@material-ui/icons';
 
 export default function FormDialog() {
 	const [open, setOpen] = useState(false)
@@ -51,7 +51,7 @@ export default function FormDialog() {
 			city: formInputs.city,
 			state: formInputs.state,
 			zipcode: formInputs.zipcode,
-			image: driverImg,
+			image: `/brentphoto.png`,
 		}
 
 		fetch(`/drivers/add-driver`, 
@@ -66,7 +66,7 @@ export default function FormDialog() {
 				if(response.ok) {
 					setMessage(`Driver ${formInputs.first_name} ${formInputs.last_name} was successfully added!`)
 				} else {
-					setMessage(`Driver was not set due to an error.`)
+					setMessage(`Driver was not added due to an error.`)
 				}
 			})
 			.then(result => {
@@ -80,7 +80,7 @@ export default function FormDialog() {
     <div>
 			{ msgState ? <MessageDisplay openState={msgState} message={message} /> : null }
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Add Driver
+        Add Driver <Add />
       </Button>
 			<Dialog 
 				open={open} 
@@ -101,10 +101,12 @@ export default function FormDialog() {
             label="First Name"
 						type="text"
 						onChange={e => setFormInputs({...formInputs, [e.target.name]: e.target.value})}
-            fullWidth
+						fullWidth
+						required={true}
           />
         	<TextField
-            autoFocus
+						autoFocus
+						style={{ marginLeft: `2rem`}}
             margin="dense"
 						id="last_name"
 						name="last_name"
@@ -151,11 +153,12 @@ export default function FormDialog() {
             margin="dense"
 						id="city"
 						name="city"
-            label="City"
+						label="City"
+						fullWidth
 						type="text"
 						onChange={e => setFormInputs({...formInputs, [e.target.name]: e.target.value})}
-            fullWidth
           />
+					<div style={{ display: `flex`, marginBottom: `1rem`}}>
 					<TextField
             autoFocus
             margin="dense"
@@ -167,6 +170,7 @@ export default function FormDialog() {
             fullWidth
           />
 					<TextField
+						style={{ marginLeft: `2rem`}}
             autoFocus
             margin="dense"
 						id="zipcode"
@@ -176,13 +180,12 @@ export default function FormDialog() {
 						onChange={e => setFormInputs({...formInputs, [e.target.name]: e.target.value})}
             fullWidth
           />
-					
+					</div>
 					<Input 
 						name="image"
 						type="file"
 						onChange={changeHandler}
 					/>
-					<Avatar src={ driverImg.image ? driverImg.image.name : 'https://i.pravatar.cc/150?img=2' } /> 
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} type="reset" color="primary">

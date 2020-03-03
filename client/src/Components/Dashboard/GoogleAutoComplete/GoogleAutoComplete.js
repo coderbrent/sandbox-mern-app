@@ -29,14 +29,15 @@ const GoogleAutoComplete = () => {
     >
       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
       <div>
-        <TextField {...getInputProps({ placeholder: "Enter an Address" })} 
+        <TextField fullWidth required {...getInputProps({ placeholder: "Enter an Address" })} 
           type="text" 
         /> 
         <div>
           { suggestions.map(suggestion => {
             const style = {
+              fontFamily: `Roboto`,
               fontSize: 'smaller',
-              backgroundColor: suggestion.active ? "rgb(3, 210, 152)" : "rgba(0, 0, 0, 0.100)"
+              backgroundColor: suggestion.active ? "#999" : "rgba(0, 0, 0, 0.100)"
             }
 
             return (

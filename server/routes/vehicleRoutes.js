@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const VehicleModel = require('../models/Vehicle')
-const vehicleList = require('../mockdb-data/vehicles.json')
 
 router.post(`/add-vehicle`, (req, res) => {
   const { 
@@ -37,10 +36,6 @@ router.post(`/add-vehicle`, (req, res) => {
    })
    res.json({ message: 'a new vehicle was added to the db'})
    res.end();
-})
-
-router.get('/vehicle-list', (req, res) => {
-  res.json(vehicleList)
 })
 
 module.exports = router;

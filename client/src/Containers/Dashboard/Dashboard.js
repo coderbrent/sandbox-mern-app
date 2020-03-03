@@ -6,9 +6,11 @@ import NewVehicleModal from '../../Components/Dashboard/NewVehicleModal/NewVehic
 import { Button } from '@material-ui/core';
 import GoogleMap from '../../Components/Dashboard/GoogleMap/GoogleMap'
 import NewDriverModal from '../../Components/Dashboard/NewDriverModal/NewDriverModal'
+import DriverDisplay from '../../Components/Dashboard/DriverDisplay';
 
 const Dashboard = () => {
   const [trips, setTrips] = useState([])
+  const [drivers, setDrivers] = useState([])
   const key = `AIzaSyC0VaGsv4vdS6aBw7otqrikEI4ykWbQRbE`
 
   // useEffect(() => {
@@ -24,28 +26,35 @@ const Dashboard = () => {
   //   findVehicles();
   // }, [])
 
+  // useEffect(() => {
+  //   const getTrips = async () => {
+  //     await fetch(`/trips/get-trips`)
+  //       .then(response => response.json())
+  //       .then(result => {
+  //         setTrips(result)
+  //       })
+  //   }
+  //   getTrips()
+  // }, [])
+
   useEffect(() => {
-    const getTrips = async () => {
-      await fetch(`/trips/get-trips`)
+    const getDrivers = async () => {
+      await fetch(`/drivers/all-drivers`)
         .then(response => response.json())
         .then(result => {
-          setTrips(result)
+          setDrivers(result)
         })
     }
-    getTrips()
+    getDrivers()
   }, [])
   
   return (
     <>
     <GoogleMap lat={-74.5892} lng={38.54993} trips={trips}/>
-    <TripTable />
-      <Button onClick={() => console.log(trips[0].puAddr.location)}>Click to console trips</Button>
     <NewTripModal />
     <NewVehicleModal />
     <NewDriverModal />
-    <MaterialTripDisplay
-      tripData={trips}
-    />
+    <DriverDisplay />
     {/* <VehicleDisplay>
       {
         vehicleList ? vehicleList.vehicles.map((car, i) => (

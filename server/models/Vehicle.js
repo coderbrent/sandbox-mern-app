@@ -5,8 +5,6 @@ const vehicleSchema = new Schema({
   make: { type: String, required: true },
   model: { type: String, required: true },
   year: { type: Number, required: true },
-  color: { type: String, required: true },
-  plate: { type: String, required: true },
   photo: String,
   currentDriver: String,
   location: { 

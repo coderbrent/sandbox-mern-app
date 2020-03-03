@@ -9,11 +9,13 @@ const driverSchema = new Schema({
   street: String,
   city: String,
   state: String,
-  zipcode: Number,
-  image: Object,
+  zipcode: String,
+  image: String,
 });
 
 driverSchema.virtual('fullName')
-  .get(function() { return `${this.first_name} ${this.last_name}` })
+  .get(function() { 
+    return `${this.first_name} ${this.last_name}` 
+  })
 
 module.exports = Driver = mongoose.model('Driver', driverSchema)
