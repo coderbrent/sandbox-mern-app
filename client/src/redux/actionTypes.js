@@ -1,0 +1,8 @@
+export const ADD_TRIP = 'ADD_TRIP'
+export const UPDATE_TRIP = 'UPDATE_TRIP'
+export const DELETE_TRIP = 'DELETE_TRIP'
+export const REQUEST_TRIPS = 'REQUEST_TRIPS'
+export const RECEIVE_TRIPS = 'RECEIVE_TRIPS'
+export const IS_FETCHING = 'IS_FETCHING'
+export const SUCCESS = 'SUCCESS'
+export const ERROR = 'ERROR'

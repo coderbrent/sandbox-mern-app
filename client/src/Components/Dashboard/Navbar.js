@@ -1,9 +1,19 @@
 import React from 'react';
+import Dashboard from '../../Containers/Dashboard/Dashboard'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCar, faPoo, faHome, faAdjust } from '@fortawesome/free-solid-svg-icons'
+import { 
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from 'react-router-dom'
+import DriverDisplay from './DriverDisplay'
+import TripDisplay from './TripDisplay'
 
 const Navbar = () => {
   return(
+    <Router>
     <nav style={{ color: `white` }}>
       <div
         style={{
@@ -17,6 +27,8 @@ const Navbar = () => {
       <h3 
         style={{ 
           fontVariantCaps: `all-petite-caps`,
+          fontSize: `2rem`,
+          padding: `0rem`,
           marginLeft: `1rem`
         }}>Dispatch System</h3>
       <ul 
@@ -35,7 +47,7 @@ const Navbar = () => {
         }}
       > 
         <FontAwesomeIcon icon={faHome} pull="left"/> 
-          Home
+          <Link to="/">Home</Link>
       </span>
       <li>
         <span 
@@ -46,11 +58,11 @@ const Navbar = () => {
           }}
         >
           <FontAwesomeIcon icon={faPoo} pull="left"/>
-            Drivers
+            <Link to="/driverdisplay">Drivers</Link>
         </span>
       </li>
       <li>
-        <span     
+        <span
           style={{ 
             display: `flex`, 
             alignItems: `center`, 
@@ -58,7 +70,7 @@ const Navbar = () => {
           }}
         >
           <FontAwesomeIcon icon={faCar} pull="left"/>
-            <span>Vehicles</span>
+            <Link to="/tripdisplay"><span>Trips</span></Link>
         </span>
       </li>
       <li>
@@ -70,12 +82,24 @@ const Navbar = () => {
           }}
         >
           <FontAwesomeIcon icon={faAdjust} pull="left"/>
-            Settings
+            <Link to="/settings">Settings</Link>
         </span>
       </li>
       </ul>
       </div>
     </nav>
+    <Switch>
+      <Route exact path="/">
+        <Dashboard />
+      </Route>
+      <Route exact path="/driverdisplay">
+        <DriverDisplay />
+      </Route>
+      <Route exact path="/tripdisplay">
+        <TripDisplay />
+      </Route>
+    </Switch>
+    </Router>
   )
 }
 

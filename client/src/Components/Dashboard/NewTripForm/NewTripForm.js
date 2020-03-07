@@ -12,9 +12,9 @@ import {
 } from '@material-ui/core'
 import { DatePicker } from '@material-ui/pickers'
 import { AccessAlarmOutlined } from '@material-ui/icons'
-import { makeStyles } from '@material-ui/core/styles';
 
 const NewTripForm = () => {
+  
   const [selectedDate, setSelectedDate] = useState(new Date())
   const [selectedType, setSelectedType] = useState('')
   const [inputs, setInputs] = useState({ pu_time: '', pu_addr: '' })

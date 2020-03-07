@@ -158,8 +158,8 @@ export default function FormDialog() {
         <DialogTitle id="form-dialog-title">Add Driver</DialogTitle>
         <DialogContent>
           <div style={{ display: `flex`}}>
-					<FontAwesomeIcon icon={faUser} />
 					<TextField
+						
 						autoFocus
 						variant="outlined"
             margin="dense"

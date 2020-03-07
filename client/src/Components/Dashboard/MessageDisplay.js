@@ -12,10 +12,6 @@ export default function MessageDisplay({ message, openState, severityProp }) {
 
   const { vertical, horizontal, open, severity } = state;
 
-  // const handleClick = newState => () => {
-  //   setState({ open: open, ...newState });
-  // };
-
   const handleClose = () => {
     setState({ ...state, open: false });
   };

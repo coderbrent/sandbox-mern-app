@@ -40,7 +40,6 @@ router.post(`/add-driver`, async (req, res) => {
       image: image,
     });
 
-
     DriverModel.findOne({ email: newDriver.email }, function(err, driver) {
       if(err) throw err
       if(!driver) {
@@ -54,7 +53,6 @@ router.post(`/add-driver`, async (req, res) => {
       })
   })
   
-
 router.get(`/all-drivers`, (req, res) => {
   DriverModel.find({}, (err, response) => {
     if(err) console.log(err);
@@ -72,8 +70,12 @@ router.delete(`/delete-driver/:id`, (req, res) => {
 
 })
 
-router.put(`/update-driver/:id`, (req, res) => {
-
+router.put(`/update-driver/:id`, async (req, res) => {
+  const { id } = req.params
+  
+  await DriverModel.findByIdAndUpdate(id, {}, (err, res) => {
+      
+    })
 })
 
 router.delete(`/delete-driver/:id`, (req, res) => {

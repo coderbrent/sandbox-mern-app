@@ -29,6 +29,7 @@
     "react-text-mask": "^5.4.3",
     "recompose": "^0.30.0",
     "redux": "^4.0.5",
+    "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "redux-toolkit": "^1.1.2",
     "zipcode": "^0.1.1"

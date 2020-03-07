@@ -20,9 +20,9 @@ import ViewColumn from '@material-ui/icons/ViewColumn';
 const DriverDisplay = () => {
   const [driverList, setDriverList] = useState([])
 
-  // const deleteById = id => {
-  //   fetch(`/drivers/delete-driver/${id}`, { method: `DELETE` })
-  // }
+  const deleteById = id => {
+    fetch(`/drivers/delete-driver/${id}`, { method: `DELETE` })
+  }
 
   const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -49,7 +49,7 @@ const DriverDisplay = () => {
         await fetch(`/drivers/all-drivers`)
           .then(response => response.json())
           .then(result => {
-            return setDriverList(result)
+            setDriverList(result)
           })
       }
       fetchAllDrivers()
@@ -73,9 +73,10 @@ const DriverDisplay = () => {
           { title: 'State', field: 'state' },
           { title: 'Zipcode', field: 'zipcode' },
         ]}
-        data={driverList.map((driver, i) => {
+        data={driverList.map((driver, index) => {
           return {
-            key: driver.driver_id,
+            index: index,
+            key: driver._id,
             avatar: driver.avatar,
             firstname: driver.first_name, 
             lastname: driver.last_name, 
@@ -92,16 +93,16 @@ const DriverDisplay = () => {
             new Promise((resolve, reject) => {
               setTimeout(() => {
                 let data = driverList;
-                const index = data.indexOf(oldData);
+                const index = data.indexOf(oldData.key);
                 data.splice(index, 1);
-                setDriverList({ data }, () => resolve())
-                // deleteById(oldData.key)
+                setDriverList(data)
               })
               resolve()
             }, 1000)
         }}
       />
     </div>
+    
   )
 }
 

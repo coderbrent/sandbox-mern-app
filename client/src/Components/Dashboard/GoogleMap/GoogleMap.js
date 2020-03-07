@@ -8,7 +8,14 @@ const GoogleMap = ({ lat, lng, trips }) => {
 
   const key = `AIzaSyC0VaGsv4vdS6aBw7otqrikEI4ykWbQRbE`
   return (
-    <div style={{ height: `33vh`, width: `100%`}}>
+    <div 
+      style={{ 
+        borderBottom: `5px solid rgba(0, 0, 0, .5)`,
+        marginTop: `1rem`, 
+        height: `33vh`, 
+        width: `100%`
+      }}
+    >
     <GoogleMapReact
       bootstrapURLKeys={{
         key: key,
